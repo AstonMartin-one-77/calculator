@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Калькулятор</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <section id="Russia">
+		<div class="Container">
+			<div class="Calculator">
+				<form id="data" action="calcHandler.php">
+					<div class="Direction">
+						<div class="From">
+							<label for="BaseCity">Откуда</label>
+							<input type="search" name="BaseCity" id="BaseCity" placeholder="Пункт отправки" required>
+						</div>
+						<div class="To">
+							<label for="City">Куда</label>
+							<input type="search" name="City" id="City" placeholder="Пункт доставки" required>
+						</div>
+					</div>
+					<div class="Weight">
+						<label for="Weight">Вес</label>
+						<input type="text" name="Weight" id="Weight" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Вес груза" required>
+					</div>
+					<div class="QuestionVWeight">
+						<div class="Question">
+						</div>
+						<div class="Answer">
+							<label for="vweight-yes">Вы знаете объемный вес?</label>
+							<div class="btn-group btn-group-toggle" data-toggle="buttons">
+								<label class="btn btn-secondary active">
+									<input type="radio" name="answerVWeight" id="vweight-yes" autocomplete="off" checked> Да
+								</label>
+								<label class="btn btn-secondary">
+									<input type="radio" name="answerVWeight" id="vweight-no" autocomplete="off"> Нет
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="VWeight">
+						
+					</div>
+				</form>
+				<div class="Result">
+					
+				</div>
+				<div class="Info">
+					
+				</div>
+			</div>
+		</div>
+	</section>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
