@@ -17,7 +17,7 @@
     <![endif]-->
   </head>
   <body>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="calculator">
 			<h3>Расчет доставки по России и СНГ</h3>
 			<form id="data" action="calcHandler.php">
@@ -29,6 +29,30 @@
 					<div class="col-sm-6">
 						<label for="city"><h4>Куда</h4></label>
 						<input type="search" name="city" id="city" class="form-control" placeholder="Пункт доставки" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<h3>Параметры мест</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<input type="text" name="weight" id="weight" class="form-control" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Вес, кг" required>
+						<div class="btn-group btn-group-toggle" data-toggle="buttons">
+							<label class="btn btn-secondary">
+								<input type="radio" name="figureType" id="figure-cube" value="cube" autocomplete="off">
+								<img src="fonts/cube_32px.png" alt="Коробка">
+							</label>
+							<label class="btn btn-secondary">
+								<input type="radio" name="figureType" id="figure-cylinder" value="cylinder" autocomplete="off">
+								<img src="fonts/cylinder_32px.png" alt="Рулон">
+							</label>
+							<label class="btn btn-secondary active">
+								<input type="radio" name="figureType" id="figure-doc" value="doc" autocomplete="off" checked>
+								<img src="fonts/doc_32px.png" alt="Документы">
+							</label>
+						</div>
 					</div>
 				</div>
 				<div class="row">
