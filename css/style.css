@@ -1,3 +1,15 @@
-#figure-cube {
-	background: url("../fonts/cube.png");
+.calculator div {
+	background-color: #ffff66;
+}
+
+.calculator input {
+	background-color: #ffff99;
+}
+
+.text-headline {
+	text-align: center;
+}
+
+input.form-control {
+	min-width: 180px;
 }

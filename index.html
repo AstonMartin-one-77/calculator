@@ -8,7 +8,7 @@
     <title>Калькулятор</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -17,146 +17,169 @@
     <![endif]-->
   </head>
   <body>
-	<div class="container">
-		<div class="calculator">
-			<h3>Расчет доставки по России и СНГ</h3>
-			<form id="data" action="calcHandler.php">
-				<div class="row">
-					<div class="col-sm-6">
-						<label for="baseCity"><h4>Откуда</h4></label>
-						<input type="search" name="baseCity" id="baseCity" class="form-control" placeholder="Пункт отправки" required>
-					</div>
-					<div class="col-sm-6">
-						<label for="city"><h4>Куда</h4></label>
-						<input type="search" name="city" id="city" class="form-control" placeholder="Пункт доставки" required>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-12">
-						<h3>Параметры мест</h3>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						<input type="text" name="weight" id="weight" class="form-control" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Вес, кг" required>
-						<div class="btn-group btn-group-toggle" data-toggle="buttons">
-							<label class="btn btn-secondary">
-								<input type="radio" name="figureType" id="figure-cube" value="cube" autocomplete="off">
-								<img src="fonts/cube_32px.png" alt="Коробка">
-							</label>
-							<label class="btn btn-secondary">
-								<input type="radio" name="figureType" id="figure-cylinder" value="cylinder" autocomplete="off">
-								<img src="fonts/cylinder_32px.png" alt="Рулон">
-							</label>
-							<label class="btn btn-secondary active">
-								<input type="radio" name="figureType" id="figure-doc" value="doc" autocomplete="off" checked>
-								<img src="fonts/doc_32px.png" alt="Документы">
-							</label>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						<label for="weight"><h4>Вес</h4></label>
-						<input type="text" name="weight" id="weight" class="form-control" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Введите вес груза" required>
-					</div>
-					<div class="col-sm-6">
-						<div class="row">
-							<div class="col-sm-12">
-								<label for="vWeight-no"><h4>Вы знаете объемный вес?</h4></label>
-								<div class="btn-group btn-group-toggle" data-toggle="buttons">
-									<label class="btn btn-secondary">
-										<input type="radio" name="answerVWeight" id="vWeight-yes" value="yes" autocomplete="off"> Да </label>
-									<label class="btn btn-secondary active">
-										<input type="radio" name="answerVWeight" id="vWeight-no" value="no" autocomplete="off" checked> Нет </label>
-								</div>
-							</div>
-						</div>
-						<!-- В зависимости от ответа на вопрос: -->
-						<!--    -> Ввод объемного веса вручную: -->
-						<div class="vWeight" id="inputVWeight">
-							<div class="row">
-								<div class="col-sm-12">
-									<input type="text" name="vWeight" id="vWeight" class="form-control" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Введите объемный вес груза" required>
-								</div>
-							</div>
-						</div>
-						<!--    -> Автоматический расчет по параметрам груза: -->
-						<div class="vWeight" id="calcVWeight">
-							<div class="row">
-								<div class="col-sm-12">
-									<label for="vweight-doc"><h4>Тип отправления:</h4></label>
-									<div class="btn-group btn-group-toggle" data-toggle="buttons">
-										<label class="btn btn-secondary">
-											<input type="radio" name="figureType" id="figure-cube" value="cube" autocomplete="off">
-											<img src="fonts/cube_32px.png" alt="Коробка">
-										</label>
-										<label class="btn btn-secondary">
-											<input type="radio" name="figureType" id="figure-cylinder" value="cylinder" autocomplete="off">
-											<img src="fonts/cylinder_32px.png" alt="Рулон">
-										</label>
-										<label class="btn btn-secondary active">
-											<input type="radio" name="figureType" id="figure-doc" value="doc" autocomplete="off" checked>
-											<img src="fonts/doc_32px.png" alt="Документы">
-										</label>
-									</div>
-								</div>
-							</div>
-							<!--   В зависимости от типа отправки: -->
-							<!--        * Документы: -->
-							<div class="docType" id="documentPrms">
-								<div class="row">
-									<div class="col-sm-12">
-										<h3>Параметры документов</h3>
-									</div>
-								</div>
-							</div>
-							<!--        * Коробка: -->
-							<div class="cubeType" id="cubePrms">
-								<div class="row">
-									<div class="col-sm-12">
-										<h3>Параметры коробки</h3>
-									</div>
-								</div>
-							</div>
-							<!--        * Рулон: -->
-							<div class="cylinderType" id="cylinderPrms">
-								<div class="row">
-									<div class="col-sm-12">
-										<h3>Параметры рулона</h3>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
-			<div class="Result">
-				
-			</div>
-			<div class="Info">
-				
-			</div>
-		</div>
-	</div>
+    
+    <div class="calculator">
+      <div class="container border shadow-sm p-3 mb-5 rounded">
+        <div class="row justify-content-center">
+          <div class="col">
+            <h3 class="text-headline">Расчет доставки по России и СНГ</h3>
+            <hr class="my-4">
+          </div>
+        </div>
+        <div class="row">
+            <div class="col">
+              <label for="baseCity"><h4>Откуда</h4></label>
+              <input type="search" name="baseCity" id="baseCity" class="form-control" placeholder="Пункт отправки" required>
+            </div>
+            <div class="col">
+              <label for="city"><h4>Куда</h4></label>
+              <input type="search" name="city" id="city" class="form-control" placeholder="Пункт доставки" required>
+            </div>
+        </div>
+        <hr class="my-4">
+      </div>
+    </div>
+  
+    <div class="container">
+        <div class="calculator">
+            <h3>Расчет доставки по России и СНГ</h3>
+            <form id="data" action="calcHandler.php">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="baseCity"><h4>Откуда</h4></label>
+                        <input type="search" name="baseCity" id="baseCity" class="form-control" placeholder="Пункт отправки" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="city"><h4>Куда</h4></label>
+                        <input type="search" name="city" id="city" class="form-control" placeholder="Пункт доставки" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Параметры мест</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type="text" name="weight" id="weight" class="form-control" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Вес, кг" required>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="figureType" id="figure-cube" value="cube" autocomplete="off">
+                                <img src="fonts/cube_32px.png" alt="Коробка">
+                            </label>
+                            <label class="btn btn-secondary">
+                                <input type="radio" name="figureType" id="figure-cylinder" value="cylinder" autocomplete="off">
+                                <img src="fonts/cylinder_32px.png" alt="Рулон">
+                            </label>
+                            <label class="btn btn-secondary active">
+                                <input type="radio" name="figureType" id="figure-doc" value="doc" autocomplete="off" checked>
+                                <img src="fonts/doc_32px.png" alt="Документы">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="weight"><h4>Вес</h4></label>
+                        <input type="text" name="weight" id="weight" class="form-control" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Введите вес груза" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="vWeight-no"><h4>Вы знаете объемный вес?</h4></label>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-secondary">
+                                        <input type="radio" name="answerVWeight" id="vWeight-yes" value="yes" autocomplete="off"> Да </label>
+                                    <label class="btn btn-secondary active">
+                                        <input type="radio" name="answerVWeight" id="vWeight-no" value="no" autocomplete="off" checked> Нет </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- В зависимости от ответа на вопрос: -->
+                        <!--    -> Ввод объемного веса вручную: -->
+                        <div class="vWeight" id="inputVWeight">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="text" name="vWeight" id="vWeight" class="form-control" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Введите объемный вес груза" required>
+                                </div>
+                            </div>
+                        </div>
+                        <!--    -> Автоматический расчет по параметрам груза: -->
+                        <div class="vWeight" id="calcVWeight">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label for="vweight-doc"><h4>Тип отправления:</h4></label>
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary">
+                                            <input type="radio" name="figureType" id="figure-cube" value="cube" autocomplete="off">
+                                            <img src="fonts/cube_32px.png" alt="Коробка">
+                                        </label>
+                                        <label class="btn btn-secondary">
+                                            <input type="radio" name="figureType" id="figure-cylinder" value="cylinder" autocomplete="off">
+                                            <img src="fonts/cylinder_32px.png" alt="Рулон">
+                                        </label>
+                                        <label class="btn btn-secondary active">
+                                            <input type="radio" name="figureType" id="figure-doc" value="doc" autocomplete="off" checked>
+                                            <img src="fonts/doc_32px.png" alt="Документы">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   В зависимости от типа отправки: -->
+                            <!--        * Документы: -->
+                            <div class="docType" id="documentPrms">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h3>Параметры документов</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--        * Коробка: -->
+                            <div class="cubeType" id="cubePrms">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h3>Параметры коробки</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--        * Рулон: -->
+                            <div class="cylinderType" id="cylinderPrms">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h3>Параметры рулона</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="Result">
+                
+            </div>
+            <div class="Info">
+                
+            </div>
+        </div>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.js"></script>
-	
-	<!-- Скрипт переключения между элементами блоков расчета/ввода объемного веса. -->
-	<script>
-		
-		$("input[name='answerVWeight']").on("change", function() {
-			$("#inputVWeight").toggle(this.value === "yes" && this.checked);
-			$("#calcVWeight").toggle(this.value === "no" && this.checked);
-		}).change();
-		$("input[name='figureType']").on("change", function() {
-			$("#documentPrms").toggle(this.value === "doc" && this.checked);
-			$("#cubePrms").toggle(this.value === "cube" && this.checked);
-			$("#cylinderPrms").toggle(this.value === "cylinder" && this.checked);
-		}).change();
-	</script>
+    
+    <!-- Скрипт переключения между элементами блоков расчета/ввода объемного веса. -->
+    <script>
+        
+        $("input[name='answerVWeight']").on("change", function() {
+            $("#inputVWeight").toggle(this.value === "yes" && this.checked);
+            $("#calcVWeight").toggle(this.value === "no" && this.checked);
+        }).change();
+        $("input[name='figureType']").on("change", function() {
+            $("#documentPrms").toggle(this.value === "doc" && this.checked);
+            $("#cubePrms").toggle(this.value === "cube" && this.checked);
+            $("#cylinderPrms").toggle(this.value === "cylinder" && this.checked);
+        }).change();
+    </script>
   </body>
 </html>
