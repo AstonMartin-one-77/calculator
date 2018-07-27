@@ -1,15 +1,23 @@
-.calculator div {
-	background-color: #ffff66;
+div.calculator {
+    background-color: #ffd800;
 }
 
-.calculator input {
-	background-color: #ffff99;
+div.calculator div.topPart, 
+div.calculator div.bodyPart, 
+div.calculator div.bottomPart {
+    background-color: #fde910;
 }
 
-.text-headline {
-	text-align: center;
+div.calculator input, 
+div.calculator input:focus,
+div.calculator select,
+div.calculator select:focus {
+    background-color: #fced3f;
+    min-width: 180px;
 }
-
-input.form-control {
-	min-width: 180px;
+div.calculator div.input-group-prepend > label {
+    background-color: #d4c202;
+}
+div.calculator .text-headline {
+    text-align: center;
 }

@@ -19,24 +19,68 @@
   <body>
     
     <div class="calculator">
-      <div class="container border shadow-sm p-3 mb-5 rounded">
-        <div class="row justify-content-center">
-          <div class="col">
-            <h3 class="text-headline">Расчет доставки по России и СНГ</h3>
-            <hr class="my-4">
+      <div class="container">
+        <div class="topPart shadow-sm p-3 mb-1 rounded-top">
+          <div class="row">
+            <div class="col">
+              <h3 class="text-headline">Расчет доставки по России и СНГ</h3>
+            </div>
           </div>
         </div>
-        <div class="row">
-            <div class="col">
-              <label for="baseCity"><h4>Откуда</h4></label>
-              <input type="search" name="baseCity" id="baseCity" class="form-control" placeholder="Пункт отправки" required>
+        <form id="data" action="calcHandler.php">
+          <div class="bodyPart shadow-sm p-3 mb-1">
+            <div class="row">
+              <div class="col">
+                <label for="baseCity"><h4>Откуда</h4></label>
+                <input type="search" name="baseCity" id="baseCity" class="form-control border-dark" placeholder="Пункт отправки" required>
+              </div>
+              <div class="col">
+                <label for="city"><h4>Куда</h4></label>
+                <input type="search" name="city" id="city" class="form-control border-dark" placeholder="Пункт доставки" required>
+              </div>
             </div>
-            <div class="col">
-              <label for="city"><h4>Куда</h4></label>
-              <input type="search" name="city" id="city" class="form-control" placeholder="Пункт доставки" required>
+          </div>
+          <div class="bodyPart shadow-sm p-3 mb-1">
+            <div class="row">
+              <div class="col col-sm-6">
+                <label for="baseCity"><h4>Режим доставки</h4></label>
+                <select class="custom-select border-dark" id="mode">
+                  <option selected></option>
+                </select>
+              </div>
             </div>
+          </div>
+          <div class="bodyPart shadow-sm p-3 mb-1">
+            <div class="row">
+              <div class="col">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <button type="button" class="btn btn-outline-secondary">
+                        <img src="fonts/cube_32px.png" alt="Коробка">
+                      </button>
+                      <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                    </span>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#">Action</a>
+                    </div>
+                  </div>
+                  <input type="text" aria-label="Weight" class="form-control">
+                  <input type="text" aria-label="Width" class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="bottomPart shadow-sm p-3 mb-5 rounded-bottom">
+          <div class="row">
+            <div class="col">
+              <div class="blockquote-footer text-headline">&copy; Copyright 2018 Delserv Company</div>
+            </div>
+          </div>
         </div>
-        <hr class="my-4">
       </div>
     </div>
   
