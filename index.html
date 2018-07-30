@@ -84,6 +84,7 @@
                     </textarea>
                   </div>
                 </div>
+               <span class="close-despatch"><img class="svg-close-btn" src="img/close.svg" alt=""/></span>
               </div>
               </div>
               <div class="row justify-content-center p-0 m-0 mt-1">
@@ -100,7 +101,9 @@
             <div class="col-auto">
               <button type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm">Рассчитать</button>
             </div>
+            <span class="close-despatch"></span>
           </div>
+          
         </form>
         <div class="row shadow-sm justify-content-center p-3 m-1 rounded-bottom">
           <div class="col-auto">
@@ -259,6 +262,13 @@
         
         $(document).ready(function() {
             $(".despatch-parent").toggle(false);
+            $(".svg-close-btn").click(function() {
+                if ($(this).parent($(".despatch"))) {
+                    $(this).parent($(".despatch")).toggle(false);
+                } else {
+                    // TODO: 
+                }
+            });
             $(".btnAddDespatch").click();
         });
         

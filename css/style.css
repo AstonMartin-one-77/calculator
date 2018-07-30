@@ -49,3 +49,21 @@ div.calculator div.prm {
     text-align: center;
 }
 
+div.calculator span.close-despatch {
+    position: relative;
+    bottom: 19px;
+    left: -8px;
+}
+
+div.calculator span.close-despatch > img.svg-close-btn {
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    opacity: 0.3;
+}
+
+div.calculator span.close-despatch > img.svg-close-btn:hover {
+    height: 30px;
+    width: 30px;
+    opacity: 1;
+}
