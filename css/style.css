@@ -1,23 +1,51 @@
 div.calculator {
+    background-color: #fad201;
+}
+
+div.calculator > div.container > div.row, 
+div.calculator > div.container > form > div.row {
     background-color: #ffd800;
 }
 
-div.calculator div.topPart, 
-div.calculator div.bodyPart, 
-div.calculator div.bottomPart {
-    background-color: #fde910;
+div.calculator div.despatch, 
+div.calculator div.dropdown-menu > a.dropdown-item:hover {
+    background-color: #ffb801;
 }
 
 div.calculator input, 
-div.calculator input:focus,
 div.calculator select,
-div.calculator select:focus {
-    background-color: #fced3f;
-    min-width: 180px;
+div.calculator textarea {
+    background-color: #ffe033;
+    min-width: 130px;
 }
-div.calculator div.input-group-prepend > label {
-    background-color: #d4c202;
+
+div.calculator input:focus,
+div.calculator select:focus,
+div.calculator textarea:focus,
+div.calculator div.dropdown-menu {
+    background-color: #ffc111;
 }
+
 div.calculator .text-headline {
     text-align: center;
 }
+
+div.calculator div.dropdown-menu img.svg-icon,
+div.calculator img.svg-icon {
+    height: 45px;
+    width: 45px;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+div.calculator button.dropdown-toggle img.svg-icon {
+    height: 65px;
+    width: 65px;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+div.calculator div.prm {
+    text-align: center;
+}
+

@@ -20,65 +20,91 @@
     
     <div class="calculator">
       <div class="container">
-        <div class="topPart shadow-sm p-3 mb-1 rounded-top">
-          <div class="row">
-            <div class="col">
-              <h3 class="text-headline">Расчет доставки по России и СНГ</h3>
-            </div>
+        <div class="row shadow-sm m-1 rounded-top">
+          <div class="col">
+            <h3 class="text-headline">Расчет доставки по России и СНГ</h3>
           </div>
         </div>
         <form id="data" action="calcHandler.php">
-          <div class="bodyPart shadow-sm p-3 mb-1">
-            <div class="row">
-              <div class="col">
-                <label for="baseCity"><h4>Откуда</h4></label>
-                <input type="search" name="baseCity" id="baseCity" class="form-control border-dark" placeholder="Пункт отправки" required>
-              </div>
-              <div class="col">
-                <label for="city"><h4>Куда</h4></label>
-                <input type="search" name="city" id="city" class="form-control border-dark" placeholder="Пункт доставки" required>
-              </div>
+          <div class="row shadow-sm p-3 m-1">
+            <div class="col">
+              <label for="baseCity"><h4>Откуда</h4></label>
+              <input type="search" name="baseCity" id="baseCity" class="form-control border border-dark" placeholder="Пункт отправки" required>
+            </div>
+            <div class="col">
+              <label for="city"><h4>Куда</h4></label>
+              <input type="search" name="city" id="city" class="form-control border border-dark" placeholder="Пункт доставки" required>
             </div>
           </div>
-          <div class="bodyPart shadow-sm p-3 mb-1">
-            <div class="row">
-              <div class="col col-sm-6">
-                <label for="baseCity"><h4>Режим доставки</h4></label>
-                <select class="custom-select border-dark" id="mode">
-                  <option selected></option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="bodyPart shadow-sm p-3 mb-1">
-            <div class="row">
-              <div class="col">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">
-                      <button type="button" class="btn btn-outline-secondary">
-                        <img src="fonts/cube_32px.png" alt="Коробка">
-                      </button>
-                      <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="sr-only">Toggle Dropdown</span>
-                      </button>
-                    </span>
+          <div class="row shadow-sm p-3 m-1">
+            <div class="col p-0">
+              <div class="despatchList">
+              <!-- Warning: You mustn't add ID for this Node (ID-autogeneration). -->
+              <div class="despatch-parent row input-group shadow-sm border border-dark rounded p-1 m-0 mb-1">
+                <div class="col p-0">
+                  <div class="input-group-prepend p-1">
+                    <button type="button" class="btn border border-dark btn-block btn-outline-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img class="svg-icon" src="img/doc.svg" alt="">
+                    </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#"><img class="svg-icon" src="img/doc.svg" alt="">Документы</a>
+                      <a class="dropdown-item" href="#"><img class="svg-icon" src="img/box.svg" alt="">Коробка</a>
+                      <a class="dropdown-item" href="#"><img class="svg-icon" src="img/roll.svg" alt="">Рулон</a>
                     </div>
                   </div>
-                  <input type="text" aria-label="Weight" class="form-control">
-                  <input type="text" aria-label="Width" class="form-control">
+                </div>
+                <div class="col p-0">
+                  <div class="prm box-length p-1">
+                    <label for="box-length">Длина (см)</label>
+                    <input type="text" name="box-length" id="box-length" class="form-control border border-dark">
+                  </div>
+                </div>
+                <div class="col p-0">
+                  <div class="prm box-width p-1">
+                    <label for="box-width">Ширина (см)</label>
+                    <input type="text" name="box-width" id="box-width" class="form-control border border-dark">
+                  </div>
+                </div>
+                <div class="col p-0">
+                  <div class="prm box-height p-1">
+                    <label for="box-height">Высота (см)</label>
+                    <input type="text" name="box-height" id="box-height" class="form-control border border-dark">
+                  </div>
+                </div>
+                <div class="col p-0">
+                  <div class="prm amount p-1">
+                    <label for="amount">Кол-во (см)</label>
+                    <input type="text" name="amount" id="amount" class="form-control border border-dark">
+                  </div>
+                </div>
+                <div class="col p-0">
+                  <div class="prm comment p-1">
+                    <textarea name="comment" id="comment" class="form-control border border-dark" placeholder="Ваш комментарий">
+                      
+                    </textarea>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div class="row justify-content-center p-0 m-0 mt-1">
+                <div class="col p-0">
+                  <button type="button" class="btnAddDespatch btn border-dark btn-warning btn-lg btn-block shadow-sm">
+                    <img class="svg-icon" src="img/plus.svg" alt="Добавить место"/>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </form>
-        <div class="bottomPart shadow-sm p-3 mb-5 rounded-bottom">
-          <div class="row">
-            <div class="col">
-              <div class="blockquote-footer text-headline">&copy; Copyright 2018 Delserv Company</div>
+          
+          <div class="row shadow-sm justify-content-center p-3 m-1">
+            <div class="col-auto">
+              <button type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm">Рассчитать</button>
             </div>
+          </div>
+        </form>
+        <div class="row shadow-sm justify-content-center p-3 m-1 rounded-bottom">
+          <div class="col-auto">
+            <div class="blockquote-footer text-headline">&copy; Copyright 2018 Delserv Company</div>
           </div>
         </div>
       </div>
@@ -109,15 +135,15 @@
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
                             <label class="btn btn-secondary">
                                 <input type="radio" name="figureType" id="figure-cube" value="cube" autocomplete="off">
-                                <img src="fonts/cube_32px.png" alt="Коробка">
+                                <img src="img/cube_32px.png" alt="Коробка">
                             </label>
                             <label class="btn btn-secondary">
                                 <input type="radio" name="figureType" id="figure-cylinder" value="cylinder" autocomplete="off">
-                                <img src="fonts/cylinder_32px.png" alt="Рулон">
+                                <img src="img/cylinder_32px.png" alt="Рулон">
                             </label>
                             <label class="btn btn-secondary active">
                                 <input type="radio" name="figureType" id="figure-doc" value="doc" autocomplete="off" checked>
-                                <img src="fonts/doc_32px.png" alt="Документы">
+                                <img src="img/doc_32px.png" alt="Документы">
                             </label>
                         </div>
                     </div>
@@ -156,15 +182,15 @@
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                         <label class="btn btn-secondary">
                                             <input type="radio" name="figureType" id="figure-cube" value="cube" autocomplete="off">
-                                            <img src="fonts/cube_32px.png" alt="Коробка">
+                                            <img src="img/cube_32px.png" alt="Коробка">
                                         </label>
                                         <label class="btn btn-secondary">
                                             <input type="radio" name="figureType" id="figure-cylinder" value="cylinder" autocomplete="off">
-                                            <img src="fonts/cylinder_32px.png" alt="Рулон">
+                                            <img src="img/cylinder_32px.png" alt="Рулон">
                                         </label>
                                         <label class="btn btn-secondary active">
                                             <input type="radio" name="figureType" id="figure-doc" value="doc" autocomplete="off" checked>
-                                            <img src="fonts/doc_32px.png" alt="Документы">
+                                            <img src="img/doc_32px.png" alt="Документы">
                                         </label>
                                     </div>
                                 </div>
@@ -210,6 +236,8 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.js"></script>
     
     <!-- Скрипт переключения между элементами блоков расчета/ввода объемного веса. -->
@@ -224,6 +252,16 @@
             $("#cubePrms").toggle(this.value === "cube" && this.checked);
             $("#cylinderPrms").toggle(this.value === "cylinder" && this.checked);
         }).change();
+        
+        $(".btnAddDespatch").click(function() {
+            $(".despatch-parent").clone(true).toggleClass("despatch-parent despatch").toggle(true).appendTo(".despatchList");
+        });
+        
+        $(document).ready(function() {
+            $(".despatch-parent").toggle(false);
+            $(".btnAddDespatch").click();
+        });
+        
     </script>
   </body>
 </html>
