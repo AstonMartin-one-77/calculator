@@ -38,54 +38,53 @@
           </div>
           <div class="row shadow-sm p-3 m-1">
             <div class="col p-0">
-              <div class="despatchList">
-              <!-- Warning: You mustn't add ID for this Node (ID-autogeneration). -->
-              <div class="despatch-parent row input-group shadow-sm border border-dark rounded p-1 m-0 mb-1">
-                <div class="col p-0">
-                  <div class="input-group-prepend p-1">
-                    <button type="button" class="btn border border-dark btn-block btn-outline-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <img class="svg-icon" src="img/doc.svg" alt="">
-                    </button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#"><img class="svg-icon" src="img/doc.svg" alt="">Документы</a>
-                      <a class="dropdown-item" href="#"><img class="svg-icon" src="img/box.svg" alt="">Коробка</a>
-                      <a class="dropdown-item" href="#"><img class="svg-icon" src="img/roll.svg" alt="">Рулон</a>
+              <div class="despatchList row p-0 m-0">
+                <!-- Warning: You mustn't add ID for this Node (ID-autogeneration). -->
+                <div class="despatch-parent row input-group shadow-sm border border-dark rounded p-0 m-0 mb-3">
+                  <span class="close-despatch"><img class="svg-close-btn" src="img/cross.svg" alt=""/></span>
+                  <div class="col p-0">
+                    <div class="input-group-prepend p-1">
+                      <button type="button" class="btn border border-dark btn-block btn-outline-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="svg-icon" src="img/doc.svg" alt="">
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#"><img class="svg-icon" src="img/doc.svg" alt="">Документы</a>
+                        <a class="dropdown-item" href="#"><img class="svg-icon" src="img/box.svg" alt="">Коробка</a>
+                        <a class="dropdown-item" href="#"><img class="svg-icon" src="img/roll.svg" alt="">Рулон</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col p-0">
+                    <div class="prm weight p-1">
+                      <label for="weight">Вес (кг)</label>
+                      <input type="text" name="weight" id="weight" class="form-control border border-dark">
+                    </div>
+                  </div>
+                  <div class="col p-0">
+                    <div class="prm box-length p-1">
+                      <label for="box-length">Длина (см)</label>
+                      <input type="text" name="box-length" id="box-length" class="form-control border border-dark">
+                    </div>
+                  </div>
+                  <div class="col p-0">
+                    <div class="prm box-width p-1">
+                      <label for="box-width">Ширина (см)</label>
+                      <input type="text" name="box-width" id="box-width" class="form-control border border-dark">
+                    </div>
+                  </div>
+                  <div class="col p-0">
+                    <div class="prm box-height p-1">
+                      <label for="box-height">Высота (см)</label>
+                      <input type="text" name="box-height" id="box-height" class="form-control border border-dark">
+                    </div>
+                  </div>
+                  <div class="col p-0">
+                    <div class="prm amount p-1">
+                      <label for="amount">Кол-во (шт)</label>
+                      <input type="text" name="amount" id="amount" class="form-control border border-dark">
                     </div>
                   </div>
                 </div>
-                <div class="col p-0">
-                  <div class="prm box-length p-1">
-                    <label for="box-length">Длина (см)</label>
-                    <input type="text" name="box-length" id="box-length" class="form-control border border-dark">
-                  </div>
-                </div>
-                <div class="col p-0">
-                  <div class="prm box-width p-1">
-                    <label for="box-width">Ширина (см)</label>
-                    <input type="text" name="box-width" id="box-width" class="form-control border border-dark">
-                  </div>
-                </div>
-                <div class="col p-0">
-                  <div class="prm box-height p-1">
-                    <label for="box-height">Высота (см)</label>
-                    <input type="text" name="box-height" id="box-height" class="form-control border border-dark">
-                  </div>
-                </div>
-                <div class="col p-0">
-                  <div class="prm amount p-1">
-                    <label for="amount">Кол-во (шт)</label>
-                    <input type="text" name="amount" id="amount" class="form-control border border-dark">
-                  </div>
-                </div>
-                <div class="col p-0">
-                  <div class="prm comment p-1">
-                    <textarea name="comment" id="comment" class="form-control border border-dark" placeholder="Ваш комментарий">
-                      
-                    </textarea>
-                  </div>
-                </div>
-               <span class="close-despatch"><img class="svg-close-btn" src="img/close.svg" alt=""/></span>
-              </div>
               </div>
               <div class="row justify-content-center p-0 m-0 mt-1">
                 <div class="col p-0">
@@ -259,19 +258,19 @@
         $(".btnAddDespatch").click(function() {
             $(".despatch-parent").clone(true).toggleClass("despatch-parent despatch").toggle(true).appendTo(".despatchList");
         });
-        
+
         $(document).ready(function() {
             $(".despatch-parent").toggle(false);
             $(".svg-close-btn").click(function() {
-                if ($(this).parent($(".despatch"))) {
-                    $(this).parent($(".despatch")).toggle(false);
+                var className = $(this).attr("class");
+                if ($(this).closest(".despatch")) {
+                    $(this).closest(".despatch").remove();
                 } else {
                     // TODO: 
                 }
             });
             $(".btnAddDespatch").click();
         });
-        
     </script>
   </body>
 </html>
