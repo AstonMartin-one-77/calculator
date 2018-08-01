@@ -31,19 +31,21 @@ div.calculator .text-headline {
     text-align: center;
 }
 
-div.calculator div.dropdown-menu img.svg-icon,
 div.calculator img.svg-icon {
     height: 45px;
-    width: 45px;
-    vertical-align: middle;
+}
+
+div.calculator div.dropdown-menu img.svg-icon {
     margin-right: 15px;
 }
 
 div.calculator button.dropdown-toggle img.svg-icon {
     height: 65px;
-    width: 65px;
-    vertical-align: middle;
     margin-right: 15px;
+}
+
+div.calculator img#reserveIcon {
+    height: 28px;
 }
 
 div.calculator div.prm {
@@ -69,8 +71,16 @@ div.calculator span.close-despatch > img.svg-close-btn:hover {
     opacity: 1;
 }
 
-div.calculator div.color-input {
-    text-align: center;
-    height: 100px;
-    min-width: 250px;
+div.calculator a.popularCities {
+    font-size: small;
+    font-style: italic;
+    text-decoration-color: darkgray;
+    text-decoration-style: dashed;
+    color: dimgray;
+    margin-right: 3px;
+}
+
+div.calculator div.from-city, 
+div.calculator div.to-city {
+    min-width: 200px;
 }

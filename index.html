@@ -26,14 +26,23 @@
           </div>
         </div>
         <form id="data" action="calcHandler.php">
-          <div class="row shadow-sm p-3 m-1">
-            <div class="col">
+          <div class="row justify-content-center shadow-sm p-3 m-1">
+            <div class="col from-city">
               <label for="baseCity"><h4>Откуда</h4></label>
               <input type="search" name="baseCity" id="baseCity" class="form-control border border-dark" placeholder="Пункт отправки" required>
+              <a class="popularCities" href="#">Санкт-Петербург</a>
+              <a class="popularCities" href="#">Москва</a>
             </div>
-            <div class="col">
+            <div class="col-auto align-self-end p-0 m-0 pb-4 pt-4">
+              <button type="button" class="btn border-dark btn-warning btn-block shadow-sm p-1 pl-2 pr-2" id="btnReverse">
+                <img class="svg-icon" id="reserveIcon" src="img/reverse.svg" alt="">
+              </button>
+            </div>
+            <div class="col to-city">
               <label for="city"><h4>Куда</h4></label>
               <input type="search" name="city" id="city" class="form-control border border-dark" placeholder="Пункт доставки" required>
+              <a class="popularCities" href="#">Санкт-Петербург</a>
+              <a class="popularCities" href="#">Москва</a>
             </div>
           </div>
           <div class="row shadow-sm p-3 m-1">
@@ -99,7 +108,7 @@
               </div>
               <div class="row justify-content-center p-0 m-0 mt-1">
                 <div class="col p-0">
-                  <button type="button" class="btnAddDespatch btn border-dark btn-warning btn-lg btn-block shadow-sm">
+                  <button type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnAddDespatch">
                     <img class="svg-icon" src="img/plus.svg" alt="Добавить место"/>
                   </button>
                 </div>
@@ -143,48 +152,61 @@
             $("#cylinderPrms").toggle(this.value === "cylinder" && this.checked);
         }).change();*/
         
-        $(".btnAddDespatch").click(function() {
-            var newDespatch = $(".despatch-parent").clone(true);
-            newDespatch.toggleClass("despatch-parent despatch").appendTo(".despatchList");
+        $("div.calculator button#btnAddDespatch").click(function() {
+            var newDespatch = $("div.calculator div.despatch-parent").clone(true);
+            newDespatch.toggleClass("despatch-parent despatch").appendTo("div.calculator div.despatchList");
             newDespatch.find("a#despatch-box").click();
             newDespatch.toggle(true);
         });
         
         // Обработчики переключения типа места (груза/отправления).
-        $("a#despatch-box").click(function() {
-            $(this).closest(".despatch").find("img#despatch-icon").attr("src", "img/box.svg");
-            $(this).closest(".despatch").children("div.box-prms").each(function() {
+        $("div.calculator a#despatch-box").click(function() {
+            $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/box.svg");
+            $(this).closest("div.despatch").children("div.box-prms").each(function() {
                 $(this).toggle(true);
             });
-            $(this).closest(".despatch").children("div.roll-prms").each(function() {
+            $(this).closest("div.despatch").children("div.roll-prms").each(function() {
                 $(this).toggle(false);
             });
         });
-        $("a#despatch-roll").click(function() {
-            $(this).closest(".despatch").find("img#despatch-icon").attr("src", "img/roll.svg");
-            $(this).closest(".despatch").children("div.box-prms").each(function() {
+        $("div.calculator a#despatch-roll").click(function() {
+            $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/roll.svg");
+            $(this).closest("div.despatch").children("div.box-prms").each(function() {
                 $(this).toggle(false);
             });
-            $(this).closest(".despatch").children("div.roll-prms").each(function() {
+            $(this).closest("div.despatch").children("div.roll-prms").each(function() {
                 $(this).toggle(true);
             });
         });
         
         // Удаление места (позиции/груза).
-        $(".svg-close-btn").click(function() {
+        $("div.calculator img.svg-close-btn").click(function() {
             var className = $(this).attr("class");
-            if ($(this).closest(".despatch")) {
-                $(this).closest(".despatch").remove();
+            if ($(this).closest("div.despatch")) {
+                $(this).closest("div.despatch").remove();
             } else {
                 // TODO: 
             }
         });
       
         // Скрываем родителя всех позиций (отправлений, грузов).
-        $(".despatch-parent").toggle(false);
+        $("div.calculator div.despatch-parent").toggle(false);
         
         // Эмулируем щелчок по кнопке добавления позиции (отправления, груза).
-        $(".btnAddDespatch").click();
+        $("div.calculator button#btnAddDespatch").click();
+      
+        $("div.calculator button#btnReverse").click(function() {
+            var baseCity = $("div.calculator input#baseCity").val();
+            $("div.calculator input#baseCity").val($("div.calculator input#city").val());
+            $("div.calculator input#city").val(baseCity);
+        });
+        
+        $("div.calculator div.from-city > a.popularCities").bind("click", function() {
+            $("input#baseCity").val($(this).text());
+        });
+        $("div.calculator div.to-city > a.popularCities").bind("click", function() {
+            $("input#city").val($(this).text());
+        });
     </script>
   </body>
 </html>
