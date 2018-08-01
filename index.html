@@ -40,46 +40,57 @@
             <div class="col p-0">
               <div class="despatchList row p-0 m-0">
                 <!-- Warning: You mustn't add ID for this Node (ID-autogeneration). -->
-                <div class="despatch-parent row input-group shadow-sm border border-dark rounded p-0 m-0 mb-3">
+                <div class="despatch-parent input-group shadow-sm border border-dark rounded p-0 m-0 mb-3">
                   <span class="close-despatch"><img class="svg-close-btn" src="img/cross.svg" alt=""/></span>
-                  <div class="col p-0">
+                  <div class="col-auto p-0">
                     <div class="input-group-prepend p-1">
                       <button type="button" class="btn border border-dark btn-block btn-outline-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="svg-icon" src="img/doc.svg" alt="">
+                        <img class="svg-icon" id="despatch-icon" src="img/box.svg" alt="">
                       </button>
                       <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#"><img class="svg-icon" src="img/doc.svg" alt="">Документы</a>
-                        <a class="dropdown-item" href="#"><img class="svg-icon" src="img/box.svg" alt="">Коробка</a>
-                        <a class="dropdown-item" href="#"><img class="svg-icon" src="img/roll.svg" alt="">Рулон</a>
+                        <a class="dropdown-item" id="despatch-box" href="#"><img class="svg-icon" src="img/box.svg" alt="">Коробка</a>
+                        <a class="dropdown-item" id="despatch-roll" href="#"><img class="svg-icon" src="img/roll.svg" alt="">Рулон</a>
                       </div>
                     </div>
                   </div>
                   <div class="col p-0">
-                    <div class="prm weight p-1">
+                    <div class="prm p-1">
                       <label for="weight">Вес (кг)</label>
                       <input type="text" name="weight" id="weight" class="form-control border border-dark">
                     </div>
                   </div>
-                  <div class="col p-0">
-                    <div class="prm box-length p-1">
+                  <div class="col box-prms p-0">
+                    <div class="prm p-1">
                       <label for="box-length">Длина (см)</label>
                       <input type="text" name="box-length" id="box-length" class="form-control border border-dark">
                     </div>
                   </div>
-                  <div class="col p-0">
-                    <div class="prm box-width p-1">
+                  <div class="col box-prms p-0">
+                    <div class="prm p-1">
                       <label for="box-width">Ширина (см)</label>
                       <input type="text" name="box-width" id="box-width" class="form-control border border-dark">
                     </div>
                   </div>
-                  <div class="col p-0">
-                    <div class="prm box-height p-1">
+                  <div class="col box-prms p-0">
+                    <div class="prm p-1">
                       <label for="box-height">Высота (см)</label>
                       <input type="text" name="box-height" id="box-height" class="form-control border border-dark">
                     </div>
                   </div>
+                  <div class="col roll-prms p-0">
+                    <div class="prm p-1">
+                      <label for="roll-length">Длина (см)</label>
+                      <input type="text" name="roll-length" id="roll-length" class="form-control border border-dark">
+                    </div>
+                  </div>
+                  <div class="col roll-prms p-0">
+                    <div class="prm p-1">
+                      <label for="roll-diameter">Диаметр (см)</label>
+                      <input type="text" name="roll-diameter" id="roll-diameter" class="form-control border border-dark">
+                    </div>
+                  </div>
                   <div class="col p-0">
-                    <div class="prm amount p-1">
+                    <div class="prm p-1">
                       <label for="amount">Кол-во (шт)</label>
                       <input type="text" name="amount" id="amount" class="form-control border border-dark">
                     </div>
@@ -111,129 +122,6 @@
         </div>
       </div>
     </div>
-  
-    <div class="container">
-        <div class="calculator">
-            <h3>Расчет доставки по России и СНГ</h3>
-            <form id="data" action="calcHandler.php">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label for="baseCity"><h4>Откуда</h4></label>
-                        <input type="search" name="baseCity" id="baseCity" class="form-control" placeholder="Пункт отправки" required>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="city"><h4>Куда</h4></label>
-                        <input type="search" name="city" id="city" class="form-control" placeholder="Пункт доставки" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h3>Параметры мест</h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <input type="text" name="weight" id="weight" class="form-control" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Вес, кг" required>
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="figureType" id="figure-cube" value="cube" autocomplete="off">
-                                <img src="img/cube_32px.png" alt="Коробка">
-                            </label>
-                            <label class="btn btn-secondary">
-                                <input type="radio" name="figureType" id="figure-cylinder" value="cylinder" autocomplete="off">
-                                <img src="img/cylinder_32px.png" alt="Рулон">
-                            </label>
-                            <label class="btn btn-secondary active">
-                                <input type="radio" name="figureType" id="figure-doc" value="doc" autocomplete="off" checked>
-                                <img src="img/doc_32px.png" alt="Документы">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label for="weight"><h4>Вес</h4></label>
-                        <input type="text" name="weight" id="weight" class="form-control" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Введите вес груза" required>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label for="vWeight-no"><h4>Вы знаете объемный вес?</h4></label>
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-secondary">
-                                        <input type="radio" name="answerVWeight" id="vWeight-yes" value="yes" autocomplete="off"> Да </label>
-                                    <label class="btn btn-secondary active">
-                                        <input type="radio" name="answerVWeight" id="vWeight-no" value="no" autocomplete="off" checked> Нет </label>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- В зависимости от ответа на вопрос: -->
-                        <!--    -> Ввод объемного веса вручную: -->
-                        <div class="vWeight" id="inputVWeight">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <input type="text" name="vWeight" id="vWeight" class="form-control" pattern="(\d+(,\d+)?)|(\d+(\.\d+)?)" placeholder="Введите объемный вес груза" required>
-                                </div>
-                            </div>
-                        </div>
-                        <!--    -> Автоматический расчет по параметрам груза: -->
-                        <div class="vWeight" id="calcVWeight">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="vweight-doc"><h4>Тип отправления:</h4></label>
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        <label class="btn btn-secondary">
-                                            <input type="radio" name="figureType" id="figure-cube" value="cube" autocomplete="off">
-                                            <img src="img/cube_32px.png" alt="Коробка">
-                                        </label>
-                                        <label class="btn btn-secondary">
-                                            <input type="radio" name="figureType" id="figure-cylinder" value="cylinder" autocomplete="off">
-                                            <img src="img/cylinder_32px.png" alt="Рулон">
-                                        </label>
-                                        <label class="btn btn-secondary active">
-                                            <input type="radio" name="figureType" id="figure-doc" value="doc" autocomplete="off" checked>
-                                            <img src="img/doc_32px.png" alt="Документы">
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--   В зависимости от типа отправки: -->
-                            <!--        * Документы: -->
-                            <div class="docType" id="documentPrms">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h3>Параметры документов</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--        * Коробка: -->
-                            <div class="cubeType" id="cubePrms">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h3>Параметры коробки</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--        * Рулон: -->
-                            <div class="cylinderType" id="cylinderPrms">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h3>Параметры рулона</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <div class="Result">
-                
-            </div>
-            <div class="Info">
-                
-            </div>
-        </div>
-    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -245,7 +133,7 @@
     <!-- Скрипт переключения между элементами блоков расчета/ввода объемного веса. -->
     <script>
         
-        $("input[name='answerVWeight']").on("change", function() {
+        /*$("input[name='answerVWeight']").on("change", function() {
             $("#inputVWeight").toggle(this.value === "yes" && this.checked);
             $("#calcVWeight").toggle(this.value === "no" && this.checked);
         }).change();
@@ -253,24 +141,50 @@
             $("#documentPrms").toggle(this.value === "doc" && this.checked);
             $("#cubePrms").toggle(this.value === "cube" && this.checked);
             $("#cylinderPrms").toggle(this.value === "cylinder" && this.checked);
-        }).change();
+        }).change();*/
         
         $(".btnAddDespatch").click(function() {
-            $(".despatch-parent").clone(true).toggleClass("despatch-parent despatch").toggle(true).appendTo(".despatchList");
+            var newDespatch = $(".despatch-parent").clone(true);
+            newDespatch.toggleClass("despatch-parent despatch").appendTo(".despatchList");
+            newDespatch.find("a#despatch-box").click();
+            newDespatch.toggle(true);
         });
-
-        $(document).ready(function() {
-            $(".despatch-parent").toggle(false);
-            $(".svg-close-btn").click(function() {
-                var className = $(this).attr("class");
-                if ($(this).closest(".despatch")) {
-                    $(this).closest(".despatch").remove();
-                } else {
-                    // TODO: 
-                }
+        
+        // Обработчики переключения типа места (груза/отправления).
+        $("a#despatch-box").click(function() {
+            $(this).closest(".despatch").find("img#despatch-icon").attr("src", "img/box.svg");
+            $(this).closest(".despatch").children("div.box-prms").each(function() {
+                $(this).toggle(true);
             });
-            $(".btnAddDespatch").click();
+            $(this).closest(".despatch").children("div.roll-prms").each(function() {
+                $(this).toggle(false);
+            });
         });
+        $("a#despatch-roll").click(function() {
+            $(this).closest(".despatch").find("img#despatch-icon").attr("src", "img/roll.svg");
+            $(this).closest(".despatch").children("div.box-prms").each(function() {
+                $(this).toggle(false);
+            });
+            $(this).closest(".despatch").children("div.roll-prms").each(function() {
+                $(this).toggle(true);
+            });
+        });
+        
+        // Удаление места (позиции/груза).
+        $(".svg-close-btn").click(function() {
+            var className = $(this).attr("class");
+            if ($(this).closest(".despatch")) {
+                $(this).closest(".despatch").remove();
+            } else {
+                // TODO: 
+            }
+        });
+      
+        // Скрываем родителя всех позиций (отправлений, грузов).
+        $(".despatch-parent").toggle(false);
+        
+        // Эмулируем щелчок по кнопке добавления позиции (отправления, груза).
+        $(".btnAddDespatch").click();
     </script>
   </body>
 </html>
