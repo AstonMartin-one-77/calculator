@@ -27,9 +27,12 @@
         </div>
         <form id="data" action="calcHandler.php">
           <div class="row justify-content-center shadow-sm p-3 m-1">
-            <div class="col from-city">
+            <div class="from-city col p-0 ml-3 mr-3">
               <label for="baseCity"><h4>Откуда</h4></label>
               <input type="search" name="baseCity" id="baseCity" class="form-control border border-dark" placeholder="Пункт отправки" required>
+              <span class="resultList">
+                <ul class="search_result shadow-sm pl-0" id="baseCityResult"></ul>
+              </span>
               <a class="popularCities" href="#">Санкт-Петербург</a>
               <a class="popularCities" href="#">Москва</a>
             </div>
@@ -142,70 +145,111 @@
     <!-- Скрипт переключения между элементами блоков расчета/ввода объемного веса. -->
     <script>
         
-        /*$("input[name='answerVWeight']").on("change", function() {
-            $("#inputVWeight").toggle(this.value === "yes" && this.checked);
-            $("#calcVWeight").toggle(this.value === "no" && this.checked);
-        }).change();
-        $("input[name='figureType']").on("change", function() {
-            $("#documentPrms").toggle(this.value === "doc" && this.checked);
-            $("#cubePrms").toggle(this.value === "cube" && this.checked);
-            $("#cylinderPrms").toggle(this.value === "cylinder" && this.checked);
-        }).change();*/
-        
-        $("div.calculator button#btnAddDespatch").click(function() {
-            var newDespatch = $("div.calculator div.despatch-parent").clone(true);
-            newDespatch.toggleClass("despatch-parent despatch").appendTo("div.calculator div.despatchList");
-            newDespatch.find("a#despatch-box").click();
-            newDespatch.toggle(true);
-        });
-        
-        // Обработчики переключения типа места (груза/отправления).
-        $("div.calculator a#despatch-box").click(function() {
-            $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/box.svg");
-            $(this).closest("div.despatch").children("div.box-prms").each(function() {
-                $(this).toggle(true);
+        $(function() {
+            /*$("input[name='answerVWeight']").on("change", function() {
+                $("#inputVWeight").toggle(this.value === "yes" && this.checked);
+                $("#calcVWeight").toggle(this.value === "no" && this.checked);
+            }).change();
+            $("input[name='figureType']").on("change", function() {
+                $("#documentPrms").toggle(this.value === "doc" && this.checked);
+                $("#cubePrms").toggle(this.value === "cube" && this.checked);
+                $("#cylinderPrms").toggle(this.value === "cylinder" && this.checked);
+            }).change();*/
+
+            $("div.calculator button#btnAddDespatch").click(function() {
+                var newDespatch = $("div.calculator div.despatch-parent").clone(true);
+                newDespatch.toggleClass("despatch-parent despatch").appendTo("div.calculator div.despatchList");
+                newDespatch.find("a#despatch-box").click();
+                newDespatch.toggle(true);
             });
-            $(this).closest("div.despatch").children("div.roll-prms").each(function() {
-                $(this).toggle(false);
+
+            // Обработчики переключения типа места (груза/отправления).
+            $("div.calculator a#despatch-box").click(function() {
+                $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/box.svg");
+                $(this).closest("div.despatch").children("div.box-prms").each(function() {
+                    $(this).toggle(true);
+                });
+                $(this).closest("div.despatch").children("div.roll-prms").each(function() {
+                    $(this).toggle(false);
+                });
             });
-        });
-        $("div.calculator a#despatch-roll").click(function() {
-            $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/roll.svg");
-            $(this).closest("div.despatch").children("div.box-prms").each(function() {
-                $(this).toggle(false);
+            $("div.calculator a#despatch-roll").click(function() {
+                $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/roll.svg");
+                $(this).closest("div.despatch").children("div.box-prms").each(function() {
+                    $(this).toggle(false);
+                });
+                $(this).closest("div.despatch").children("div.roll-prms").each(function() {
+                    $(this).toggle(true);
+                });
             });
-            $(this).closest("div.despatch").children("div.roll-prms").each(function() {
-                $(this).toggle(true);
+
+            // Удаление места (позиции/груза).
+            $("div.calculator img.svg-close-btn").click(function() {
+                var className = $(this).attr("class");
+                if ($(this).closest("div.despatch")) {
+                    $(this).closest("div.despatch").remove();
+                } else {
+                    // TODO: 
+                }
             });
-        });
-        
-        // Удаление места (позиции/груза).
-        $("div.calculator img.svg-close-btn").click(function() {
-            var className = $(this).attr("class");
-            if ($(this).closest("div.despatch")) {
-                $(this).closest("div.despatch").remove();
-            } else {
-                // TODO: 
-            }
-        });
-      
-        // Скрываем родителя всех позиций (отправлений, грузов).
-        $("div.calculator div.despatch-parent").toggle(false);
-        
-        // Эмулируем щелчок по кнопке добавления позиции (отправления, груза).
-        $("div.calculator button#btnAddDespatch").click();
-      
-        $("div.calculator button#btnReverse").click(function() {
-            var baseCity = $("div.calculator input#baseCity").val();
-            $("div.calculator input#baseCity").val($("div.calculator input#city").val());
-            $("div.calculator input#city").val(baseCity);
-        });
-        
-        $("div.calculator div.from-city > a.popularCities").bind("click", function() {
-            $("input#baseCity").val($(this).text());
-        });
-        $("div.calculator div.to-city > a.popularCities").bind("click", function() {
-            $("input#city").val($(this).text());
+
+            // Скрываем родителя всех позиций (отправлений, грузов).
+            $("div.calculator div.despatch-parent").toggle(false);
+
+            // Эмулируем щелчок по кнопке добавления позиции (отправления, груза).
+            $("div.calculator button#btnAddDespatch").click();
+
+            $("div.calculator button#btnReverse").click(function() {
+                var baseCity = $("div.calculator input#baseCity").val();
+                $("div.calculator input#baseCity").val($("div.calculator input#city").val());
+                $("div.calculator input#city").val(baseCity);
+            });
+
+            $("div.calculator div.from-city > a.popularCities").bind("click", function() {
+                $("input#baseCity").val($(this).text());
+            });
+            $("div.calculator div.to-city > a.popularCities").bind("click", function() {
+                $("input#city").val($(this).text());
+            });
+            
+            // ПУНКТ ОТПРАВЛЕНИЯ:
+            // 1. Отправка запроса:
+            $("input#baseCity").bind("change keyup input click", function() {
+                if($(this).val().length >= 1) {
+                    $.ajax({
+                        type: "post",
+                        url: "php/search.php",
+                        data: {
+                            "baseCityStr": $(this).val()
+                        },
+                        response: "text",
+                        success: function(data) {
+                            $("ul#baseCityResult").html(data).fadeIn();
+                        }
+                    });
+                }
+            });
+            // 2. Снять фокус с поля ввода:
+            $("ul#baseCityResult").hover(function() {
+                $("input#baseCity").blur();
+            });
+            // 3. При выборе результата поиска - спрятать список и занести результат в поле ввода:
+            $("ul#baseCityResult").on("click", "li", function() {
+                $("input#baseCity").val($(this).text());
+                $("ul#baseCityResult").fadeOut();
+            });
+            // 4. Спрятать список, если клик вне поля:
+            $(document).mouseup(function(event) {
+                var input = $("input#baseCity");
+                var list = $("ul#baseCityResult");
+                
+                if (!input.is(event.target) && !list.is(event.target) && 
+                    (input.has(event.target).length === 0) && 
+                    (input.has(event.target).length === 0))
+                {
+                    $("ul#baseCityResult").fadeOut();
+                }
+            });
         });
     </script>
   </body>

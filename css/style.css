@@ -16,7 +16,7 @@ div.calculator div.dropdown-menu > a.dropdown-item:hover {
 div.calculator input, 
 div.calculator select,
 div.calculator textarea {
-    background-color: #ffe033;
+    background-color: #ffff99;
     min-width: 130px;
 }
 
@@ -24,7 +24,7 @@ div.calculator input:focus,
 div.calculator select:focus,
 div.calculator textarea:focus,
 div.calculator div.dropdown-menu {
-    background-color: #ffc111;
+    background-color: #ffff66;
 }
 
 div.calculator .text-headline {
@@ -83,4 +83,29 @@ div.calculator a.popularCities {
 div.calculator div.from-city, 
 div.calculator div.to-city {
     min-width: 200px;
+}
+
+div.calculator #baseCityResult {
+    background: #ffff99;
+    border: 1px rgb(52, 58, 64) solid;
+    border-radius: 4px;
+    max-height: 300px;
+    width: 100%;
+    overflow-y: auto;
+    display: none;
+    position: absolute;
+    z-index: 99;
+}
+
+div.calculator #baseCityResult > li {
+    list-style: none;
+    padding: 5px 10px;
+    color: rgb(73, 80, 87);;
+    border-bottom: 1px #ccc solid;
+    cursor: pointer;
+    transition:0.3s;
+}
+
+div.calculator #baseCityResult > li:hover {
+    background: #ffff66;
 }
