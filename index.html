@@ -48,6 +48,13 @@
               <a class="popularCities" href="#">Москва</a>
             </div>
           </div>
+          <div class="connect-db-alert row shadow-sm p-3 m-1" hidden>
+            <div class="col p-0 m-0">
+              <div class="alert alert-danger" role="alert">
+                <span class="alert-message"></span>
+              </div>
+            </div>
+          </div>
           <div class="row shadow-sm p-3 m-1">
             <div class="col p-0">
               <div class="despatchList row p-0 m-0">
@@ -141,6 +148,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.js"></script>
+    <script src="js/search.js"></script>
     
     <!-- Скрипт переключения между элементами блоков расчета/ввода объемного веса. -->
     <script>
@@ -210,45 +218,6 @@
             });
             $("div.calculator div.to-city > a.popularCities").bind("click", function() {
                 $("input#city").val($(this).text());
-            });
-            
-            // ПУНКТ ОТПРАВЛЕНИЯ:
-            // 1. Отправка запроса:
-            $("input#baseCity").bind("change keyup input click", function() {
-                if($(this).val().length >= 1) {
-                    $.ajax({
-                        type: "post",
-                        url: "php/search.php",
-                        data: {
-                            "baseCityStr": $(this).val()
-                        },
-                        response: "text",
-                        success: function(data) {
-                            $("ul#baseCityResult").html(data).fadeIn();
-                        }
-                    });
-                }
-            });
-            // 2. Снять фокус с поля ввода:
-            $("ul#baseCityResult").hover(function() {
-                $("input#baseCity").blur();
-            });
-            // 3. При выборе результата поиска - спрятать список и занести результат в поле ввода:
-            $("ul#baseCityResult").on("click", "li", function() {
-                $("input#baseCity").val($(this).text());
-                $("ul#baseCityResult").fadeOut();
-            });
-            // 4. Спрятать список, если клик вне поля:
-            $(document).mouseup(function(event) {
-                var input = $("input#baseCity");
-                var list = $("ul#baseCityResult");
-                
-                if (!input.is(event.target) && !list.is(event.target) && 
-                    (input.has(event.target).length === 0) && 
-                    (input.has(event.target).length === 0))
-                {
-                    $("ul#baseCityResult").fadeOut();
-                }
             });
         });
     </script>
