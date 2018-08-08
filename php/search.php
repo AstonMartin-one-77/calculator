@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 
     class calculatorDB {
 
@@ -22,23 +22,57 @@
         }
       
         function getBaseCityList($userString) {
-            $pattern = "/([А-Яа-я]+[\-[А-Яа-я]+]?|)/";
+            $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)( \(([а-я]*) ([а-я]*)(\.\)|\)|\.|))?/ui";
             if ((true === $this->result["success"]) && (true === is_string($userString)) && 
                 /** Проверяем на паттерн, предварительно удалив все лишние символы из запроса. */
-                (1 === preg_match($pattern, $this->sqlDB->real_escape_string(trim(strip_tags($userString))), $matches))) {
+                (1 === preg_match($pattern, trim(strip_tags($userString)), $matches))) {
                 /** Если найдено совпадение в запросе по паттерну, копируем результат. */
                 $userString = $matches[0];
-                /** Поиск в БД на совпадение по опорным городам. */
+                //$this->result["userString"] = $userString;
+                /** Поиск в БД на совпадение городам. */
                 $data = $this->sqlDB->query("SELECT DISTINCT Base_City AS all_city FROM cities WHERE Base_City LIKE '$userString%' UNION SELECT DISTINCT City AS all_city FROM cities WHERE City LIKE '$userString%'");
-                $this->result["error"] = $this->sqlDB->error;
                 /** Проверяем результат. */
                 if (false === $data) {
                     $this->result["success"] = false;
                     $this->result["getBaseCityList"] = "Error";
+                    $this->result["error"] = $this->sqlDB->error;
                 }
                 else {
                     $this->result["getBaseCityList"] = "success";
-                    $baseCities = array($data->num_rows);
+                    $this->result["num_rows"] = $data->num_rows;
+                    $baseCities = array();
+                    for ($i = 0; $i < $data->num_rows; ++$i) {
+                        $tmp = $data->fetch_row();
+                        $baseCities[$i] = $tmp[0];
+                    }
+                    $this->result["cities"] = $baseCities;
+                }
+            }
+        }
+      
+        function getCityList($baseCity, $userSring) {
+            $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)( \(([а-я]*) ([а-я]*)(\.\)|\)|\.|))?/ui";
+            
+            if ((true === $this->result["success"]) && (true === is_string($userString)) && 
+                /** Проверяем на паттерн, предварительно удалив все лишние символы из запроса. */
+                (1 === preg_match($pattern, trim(strip_tags($baseCity)), $baseMatches)) && 
+                (1 === preg_match($pattern, trim(strip_tags($userSring)), $matches))) {
+                /** Если найдено совпадение в запросе по паттерну, копируем результат. */
+                $baseCity = $baseMatches[0];
+                $userSring = $matches[0];
+                 /** Поиск в БД на совпадение по городам. */
+                $data = $this->sqlDB->query("SELECT DISTINCT Base_City AS all_city FROM cities WHERE City='$baseCity' AND Base_City LIKE '$userString%' 
+                                            UNION SELECT DISTINCT City AS all_city FROM cities WHERE Base_City='$baseCity' AND City LIKE '$userString%'");
+                /** Проверяем результат. */
+                if (false === $data) {
+                    $this->result["success"] = false;
+                    $this->result["getCityList"] = "Error";
+                    $this->result["error"] = $this->sqlDB->error;
+                }
+                else {
+                    $this->result["getCityList"] = "success";
+                    $this->result["num_rows"] = $data->num_rows;
+                    $baseCities = array();
                     for ($i = 0; $i < $data->num_rows; ++$i) {
                         $tmp = $data->fetch_row();
                         $baseCities[$i] = $tmp[0];
@@ -55,17 +89,20 @@
     }
     
     $DB = new calculatorDB();
-    $DB->getBaseCityList($_POST["baseCityString"]);
-    
-    echo json_encode($DB->getResult());
-    
-    /*if (isset($_POST["baseCityString"])) {
-        $result = array();
-        for ($i = 0; $i < count($cities); ++$i) {
-            array_push($result, "$cities[$i] <span class='cityArea'>$aries[$i]</span>");
-        }
-      
+
+    /*if (isset($_POST["toCityString"]) && !empty($_POST["baseCityString"])) {
+        $DB->getCityList($_POST["baseCityString"], $_POST["toCityString"]);
+        $result = $DB->getResult();
+        $result["request"] = "correct";
         echo json_encode($result);
     }*/
+    {
+        $result = $DB->getResult();
+        $result["success"] = false;
+        $result["request"] = "unknown";
+        $result["isset(toCityString)"] = isset($_POST["toCityString"]);
+        $result["isset(baseCityString)"] = isset($_POST["baseCityString"]);
+        echo json_encode($result);
+    }
 
 ?>

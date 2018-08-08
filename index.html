@@ -41,17 +41,20 @@
                 <img class="svg-icon" id="reserveIcon" src="img/reverse.svg" alt="">
               </button>
             </div>
-            <div class="col to-city">
+            <div class="to-city col p-0 ml-3 mr-3">
               <label for="city"><h4>Куда</h4></label>
               <input type="search" name="city" id="city" class="form-control border border-dark" placeholder="Пункт доставки" required>
+              <span class="resultList">
+                <ul class="search_result shadow-sm pl-0" id="cityResult"></ul>
+              </span>
               <a class="popularCities" href="#">Санкт-Петербург</a>
               <a class="popularCities" href="#">Москва</a>
             </div>
           </div>
-          <div class="connect-db-alert row shadow-sm p-3 m-1" hidden>
+          <div class="row shadow-sm p-3 m-1" id="connect-db-alert" hidden>
             <div class="col p-0 m-0">
               <div class="alert alert-danger" role="alert">
-                <span class="alert-message"></span>
+                <span id="alert-message"></span>
               </div>
             </div>
           </div>

@@ -85,7 +85,8 @@ div.calculator div.to-city {
     min-width: 200px;
 }
 
-div.calculator #baseCityResult {
+div.calculator #baseCityResult,
+div.calculator #cityResult {
     background: #ffff99;
     border: 1px rgb(52, 58, 64) solid;
     border-radius: 4px;
@@ -97,7 +98,8 @@ div.calculator #baseCityResult {
     z-index: 99;
 }
 
-div.calculator #baseCityResult > li {
+div.calculator #baseCityResult > li,
+div.calculator #cityResult > li {
     list-style: none;
     padding: 5px 10px;
     color: rgb(73, 80, 87);;
@@ -106,6 +108,7 @@ div.calculator #baseCityResult > li {
     transition:0.3s;
 }
 
-div.calculator #baseCityResult > li:hover {
+div.calculator #baseCityResult > li:hover,
+div.calculator #cityResult > li:hover {
     background: #ffff66;
 }
