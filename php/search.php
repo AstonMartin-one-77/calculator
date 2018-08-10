@@ -50,16 +50,18 @@
             }
         }
       
-        function getCityList($baseCity, $userSring) {
+        function getCityList($baseCity, $userString) {
             $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)( \(([а-я]*) ([а-я]*)(\.\)|\)|\.|))?/ui";
             
-            if ((true === $this->result["success"]) && (true === is_string($userString)) && 
+            if ((true === $this->result["success"]) && 
+                (true === is_string($baseCity)) && 
+                (true === is_string($userString)) && 
                 /** Проверяем на паттерн, предварительно удалив все лишние символы из запроса. */
                 (1 === preg_match($pattern, trim(strip_tags($baseCity)), $baseMatches)) && 
-                (1 === preg_match($pattern, trim(strip_tags($userSring)), $matches))) {
+                (1 === preg_match($pattern, trim(strip_tags($userString)), $matches))) {
                 /** Если найдено совпадение в запросе по паттерну, копируем результат. */
                 $baseCity = $baseMatches[0];
-                $userSring = $matches[0];
+                $userString = $matches[0];
                  /** Поиск в БД на совпадение по городам. */
                 $data = $this->sqlDB->query("SELECT DISTINCT Base_City AS all_city FROM cities WHERE City='$baseCity' AND Base_City LIKE '$userString%' 
                                             UNION SELECT DISTINCT City AS all_city FROM cities WHERE Base_City='$baseCity' AND City LIKE '$userString%'");
@@ -90,18 +92,24 @@
     
     $DB = new calculatorDB();
 
-    /*if (isset($_POST["toCityString"]) && !empty($_POST["baseCityString"])) {
+    if (isset($_POST["toCityString"]) && !empty($_POST["baseCityString"])) {
         $DB->getCityList($_POST["baseCityString"], $_POST["toCityString"]);
         $result = $DB->getResult();
         $result["request"] = "correct";
         echo json_encode($result);
-    }*/
-    {
+    }
+    else if (isset($_POST["baseCityString"])) {
+        $DB->getBaseCityList($_POST["baseCityString"]);
         $result = $DB->getResult();
+        $result["request"] = "correct";
+        echo json_encode($result);
+    }
+    else {
         $result["success"] = false;
         $result["request"] = "unknown";
         $result["isset(toCityString)"] = isset($_POST["toCityString"]);
         $result["isset(baseCityString)"] = isset($_POST["baseCityString"]);
+        $result["POST"] = $_POST;
         echo json_encode($result);
     }
 

@@ -15,9 +15,6 @@ function requestBaseCityList(userString) {
             /* Обновляем список городов. */
             setBaseCityList(list.cities);
             var cities = getBaseCityList($("input#baseCity").val());
-            cities.forEach(function(item, index, array) {
-                array[index] = "\n<li><span class='city'>" + item + "</span></li>";
-            });
             $("ul#baseCityResult").html(cities).fadeIn();
         },
         error: function(xhr, status, error) {
@@ -50,6 +47,10 @@ function getBaseCityList(userString) {
             result = baseList;
         }
     }
+    /** Wrapper for list to html-code. */
+    result.forEach(function(item, index, array) {
+        array[index] = "\n<li><span class='city' id='baseCity" + index + "'>" + item + "</span></li>";
+    });
     return result;
 }
 /* ПУНКТ ДОСТАВКИ: */
@@ -61,6 +62,7 @@ function requestCityList(baseCity, userString) {
         type: "post",
         url: "php/search.php",
         data: {
+            "baseCityString": baseCity,
             "toCityString": userString
         },
         response: "text",
@@ -69,9 +71,6 @@ function requestCityList(baseCity, userString) {
                 /* Обновляем список городов. */
                 setCityList(list.cities);
                 var cities = getCityList($("input#city").val());
-                cities.forEach(function(item, index, array) {
-                    array[index] = "\n<li><span class='city'>" + item + "</span></li>";
-                });
                 $("ul#cityResult").html(cities).fadeIn();
             }
         },
@@ -105,6 +104,10 @@ function getCityList(userString) {
             result = list;
         }
     }
+    /** Wrapper for list to html-code. */
+    result.forEach(function(item, index, array) {
+        array[index] = "\n<li><span class='city' id='city" + index + "'>" + item + "</span></li>";
+    });
     return result;
 }
 
@@ -115,12 +118,9 @@ $(function() {
     $("input#baseCity").bind("change keyup input click", function() {
         if (($(this).val().length % 2) === 0) {
             var cities = getBaseCityList($("input#baseCity").val());
-            cities.forEach(function(item, index, array) {
-                array[index] = "\n<li><span class='city'>" + item + "</span></li>";
-            });
             $("ul#baseCityResult").html(cities).fadeIn();
             /* Если мало городов в списке - обновляем: */
-            if (cities.length < 10) {
+            if (cities.length < 5) {
                 // Запрос данных от сервера.
                 requestBaseCityList($(this).val());
             }
@@ -128,6 +128,25 @@ $(function() {
         else {
             requestBaseCityList($(this).val());
         }
+    });
+    // 2. При нажатии кнопки tab|enter - автозаполнение
+    $("input#baseCity").bind("keypress keydown", function(key) {
+        if ((13 === key.which) || (9 === key.which)) {
+            /** Первый элемент списка. */
+            var firstElem = $("ul#baseCityResult > li > span#baseCity0");
+            if ("Нет результатов" !== firstElem.text())
+            {
+                $(this).val(firstElem.text());
+                $("ul#baseCityResult").fadeOut();
+                $("input#city").focus();
+            }
+            else {
+                $("input#baseCity").focus();
+                
+            }
+        }
+        /** Выключаем остальные действия TAB. */
+        if (9 === key.which) { key.preventDefault(); };
     });
     // 3. При выборе результата поиска - спрятать список и занести результат в поле ввода:
     $("ul#baseCityResult").on("click", "li", function() {
@@ -152,18 +171,21 @@ $(function() {
     $("input#city").bind("change keyup input click", function() {
         if (($(this).val().length % 2) === 0) {
             var cities = getCityList($(this).val());
-            cities.forEach(function(item, index, array) {
-                array[index] = "\n<li><span class='city'>" + item + "</span></li>";
-            });
             $("ul#cityResult").html(cities).fadeIn();
             /* Если мало городов в списке - обновляем: */
-            if (cities.length < 10) {
+            if (cities.length < 5) {
                 // Запрос данных от сервера.
-                requestCityList($(this).val());
+                requestCityList($("input#baseCity").val(), $(this).val());
             }
         }
         else {
-            requestCityList($(this).val());
+            requestCityList($("input#baseCity").val(), $(this).val());
+        }
+    });
+    // 2. При нажатии кнопки tab|enter - автозаполнение
+    $("input#city").bind("keypress", function(key) {
+        if ((13 === key.which) || (9 === key.which)) {
+            
         }
     });
     // 3. При выборе результата поиска - спрятать список и занести результат в поле ввода:
