@@ -14,12 +14,12 @@ function requestBaseCityList(userString) {
         success: function(list) {
             /* Обновляем список городов. */
             setBaseCityList(list.cities);
-            var cities = getBaseCityList($("input#baseCity").val());
-            $("ul#baseCityResult").html(cities).fadeIn();
+            var cities = getBaseCityList($("div.calculator input#baseCity").val());
+            $("div.calculator ul#baseCityResult").html(cities).fadeIn();
         },
         error: function(xhr, status, error) {
-            $("span#alert-message").text(error.message);
-            $("div#connect-db-alert").show();
+            $("div.calculator span#alert-message").text(error.message);
+            $("div.calculator div#connect-db-alert").show();
             
         },
         dataType: "json"
@@ -70,13 +70,13 @@ function requestCityList(baseCity, userString) {
             if (("correct" === list.request) && (true === list.success)) {
                 /* Обновляем список городов. */
                 setCityList(list.cities);
-                var cities = getCityList($("input#city").val());
-                $("ul#cityResult").html(cities).fadeIn();
+                var cities = getCityList($("div.calculator input#city").val());
+                $("div.calculator ul#cityResult").html(cities).fadeIn();
             }
         },
         error: function(xhr, status, error) {
-            $("span#alert-message").text(error.message);
-            $("div#connect-db-alert").show();
+            $("div.calculator span#alert-message").text(error.message);
+            $("div.calculator div#connect-db-alert").show();
             
         },
         dataType: "json"
@@ -115,10 +115,10 @@ function getCityList(userString) {
 $(function() {
     // ПУНКТ ОТПРАВКИ:
     // 1. Отправка запроса:
-    $("input#baseCity").bind("change keyup input click", function() {
+    $("div.calculator input#baseCity").bind("change keyup input click", function() {
         if (($(this).val().length % 2) === 0) {
-            var cities = getBaseCityList($("input#baseCity").val());
-            $("ul#baseCityResult").html(cities).fadeIn();
+            var cities = getBaseCityList($("div.calculator input#baseCity").val());
+            $("div.calculator ul#baseCityResult").html(cities).fadeIn();
             /* Если мало городов в списке - обновляем: */
             if (cities.length < 5) {
                 // Запрос данных от сервера.
@@ -130,79 +130,154 @@ $(function() {
         }
     });
     // 2. При нажатии кнопки tab|enter - автозаполнение
-    $("input#baseCity").bind("keypress keydown", function(key) {
+    $("div.calculator input#baseCity").bind("keydown", function(key) {
         if ((13 === key.which) || (9 === key.which)) {
             /** Первый элемент списка. */
-            var firstElem = $("ul#baseCityResult > li > span#baseCity0");
+            var firstElem = $("div.calculator ul#baseCityResult > li > span#baseCity0");
             if ("Нет результатов" !== firstElem.text())
             {
                 $(this).val(firstElem.text());
-                $("ul#baseCityResult").fadeOut();
-                $("input#city").focus();
+                $("div.calculator ul#baseCityResult").fadeOut();
+                $("div.calculator input#city").focus();
             }
             else {
-                $("input#baseCity").focus();
+                $("div.calculator input#baseCity").focus();
                 
             }
+            key.preventDefault();
         }
-        /** Выключаем остальные действия TAB. */
-        if (9 === key.which) { key.preventDefault(); };
     });
     // 3. При выборе результата поиска - спрятать список и занести результат в поле ввода:
-    $("ul#baseCityResult").on("click", "li", function() {
-        $("input#baseCity").val($(this).text());
-        $("ul#baseCityResult").fadeOut();
+    $("div.calculator ul#baseCityResult").on("click", "li", function() {
+        var text = $(this).children("span").text();
+        if ("Нет результатов" !== text) {
+            $("div.calculator input#baseCity").val(text);
+            $("div.calculator ul#baseCityResult").fadeOut();
+        }
+      else {
+          $("div.calculator input#baseCity").focus();
+      }
     });
     // 4. Спрятать список, если клик вне поля:
     $(document).mouseup(function(event) {
-        var input = $("input#baseCity");
-        var list = $("ul#baseCityResult");
+        var input = $("div.calculator input#baseCity");
+        var list = $("div.calculator ul#baseCityResult");
 
         if (!input.is(event.target) && !list.is(event.target) && 
             (input.has(event.target).length === 0) && 
             (input.has(event.target).length === 0))
         {
-            $("ul#baseCityResult").fadeOut();
+            $("div.calculator ul#baseCityResult").fadeOut();
         }
     });
   
     // ПУНКТ ДОСТАВКИ:
     // 1. Отправка запроса:
-    $("input#city").bind("change keyup input click", function() {
+    $("div.calculator input#city").bind("change keyup input click", function() {
         if (($(this).val().length % 2) === 0) {
             var cities = getCityList($(this).val());
-            $("ul#cityResult").html(cities).fadeIn();
+            $("div.calculator ul#cityResult").html(cities).fadeIn();
             /* Если мало городов в списке - обновляем: */
             if (cities.length < 5) {
                 // Запрос данных от сервера.
-                requestCityList($("input#baseCity").val(), $(this).val());
+                requestCityList($("div.calculator input#baseCity").val(), $(this).val());
             }
         }
         else {
-            requestCityList($("input#baseCity").val(), $(this).val());
+            requestCityList($("div.calculator input#baseCity").val(), $(this).val());
         }
     });
     // 2. При нажатии кнопки tab|enter - автозаполнение
-    $("input#city").bind("keypress", function(key) {
+    $("div.calculator input#city").bind("keydown", function(key) {
         if ((13 === key.which) || (9 === key.which)) {
-            
+            /** Первый элемент списка. */
+            var firstElem = $("div.calculator ul#cityResult > li > span#city0");
+            if ("Нет результатов" !== firstElem.text())
+            {
+                $(this).val(firstElem.text());
+                $("div.calculator ul#cityResult").fadeOut();
+                $("div.calculator button#btnAddDespatch").focus();
+            }
+            else {
+                $("div.calculator input#city").focus();
+                
+            }
+            key.preventDefault();
         }
     });
     // 3. При выборе результата поиска - спрятать список и занести результат в поле ввода:
-    $("ul#cityResult").on("click", "li", function() {
-        $("input#city").val($(this).text());
-        $("ul#cityResult").fadeOut();
+    $("div.calculator ul#cityResult").on("click", "li", function() {
+        var text = $(this).children("span").text();
+        if ("Нет результатов" !== text) {
+            $("div.calculator input#city").val(text);
+            $("div.calculator ul#cityResult").fadeOut();
+        }
+        else {
+            $("div.calculator input#city").focus();
+        }
     });
     // 4. Спрятать список, если клик вне поля:
     $(document).mouseup(function(event) {
-        var input = $("input#city");
-        var list = $("ul#cityResult");
+        var input = $("div.calculator input#city");
+        var list = $("div.calculator ul#cityResult");
 
         if (!input.is(event.target) && !list.is(event.target) && 
             (input.has(event.target).length === 0) && 
             (input.has(event.target).length === 0))
         {
-            $("ul#cityResult").fadeOut();
+            $("div.calculator ul#cityResult").fadeOut();
         }
+    });
+  
+    // Популярные города:
+    $("div.calculator div.from-city > a.popularCities").bind("click", function() {
+        var cityName = $(this).text();
+        $.ajax({
+            type: "post",
+            url: "php/search.php",
+            data: {
+                "baseCityString": cityName
+            },
+            response: "text",
+            success: function(list) {
+                if (("correct" === list.request) && (true === list.success)) {
+                    if (1 === list.cities.length) {
+                        var fullName = list.cities[0];
+                        $("div.calculator input#baseCity").val(fullName);
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                $("div.calculator span#alert-message").text(error.message);
+                $("div.calculator div#connect-db-alert").show();
+
+            },
+            dataType: "json"
+        });
+    });
+    $("div.calculator div.to-city > a.popularCities").bind("click", function() {
+        var cityName = $(this).text();
+        $.ajax({
+            type: "post",
+            url: "php/search.php",
+            data: {
+                "baseCityString": cityName
+            },
+            response: "text",
+            success: function(list) {
+                if (("correct" === list.request) && (true === list.success)) {
+                    if (1 === list.cities.length) {
+                        var fullName = list.cities[0];
+                        $("div.calculator input#city").val(fullName);
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                $("div.calculator span#alert-message").text(error.message);
+                $("div.calculator div#connect-db-alert").show();
+
+            },
+            dataType: "json"
+        });
     });
 });

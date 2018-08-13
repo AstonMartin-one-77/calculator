@@ -215,13 +215,6 @@
                 $("div.calculator input#baseCity").val($("div.calculator input#city").val());
                 $("div.calculator input#city").val(baseCity);
             });
-
-            $("div.calculator div.from-city > a.popularCities").bind("click", function() {
-                $("input#baseCity").val($(this).text());
-            });
-            $("div.calculator div.to-city > a.popularCities").bind("click", function() {
-                $("input#city").val($(this).text());
-            });
         });
     </script>
   </body>

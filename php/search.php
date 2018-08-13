@@ -62,7 +62,7 @@
                 /** Если найдено совпадение в запросе по паттерну, копируем результат. */
                 $baseCity = $baseMatches[0];
                 $userString = $matches[0];
-                 /** Поиск в БД на совпадение по городам. */
+                /** Поиск в БД на совпадение по городам. */
                 $data = $this->sqlDB->query("SELECT DISTINCT Base_City AS all_city FROM cities WHERE City='$baseCity' AND Base_City LIKE '$userString%' 
                                             UNION SELECT DISTINCT City AS all_city FROM cities WHERE Base_City='$baseCity' AND City LIKE '$userString%'");
                 /** Проверяем результат. */
