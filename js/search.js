@@ -280,4 +280,38 @@ $(function() {
             dataType: "json"
         });
     });
+  
+    // ОБРАБОТЧИК РАСЧЕТА КАЛЬКУЛЯТОРА:
+    $("div.calculator button#btnCalculate").click(function() {
+        var fromCity = $("div.calculator input#baseCity").val();
+        var toCity = $("div.calculator input#city").val();
+        if (("" !== fromCity) && ("" !== toCity)) {
+            $.ajax({
+                type: "post",
+                url: "php/search.php",
+                data: {
+                    "fromCity": fromCity,
+                    "toCity": toCity
+                },
+                response: "text",
+                success: function(list) {
+                    if (("correct" === list.request) && (true === list.success)) {
+                        if (1 === list.cities.length) {
+                            var fullName = list.cities[0];
+                            $("div.calculator input#city").val(fullName);
+                        }
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $("div.calculator span#alert-message").text(error.message);
+                    $("div.calculator div#connect-db-alert").show();
+
+                },
+                dataType: "json"
+            });
+        }
+        else {
+            // TODO:
+        }
+    });
 });

@@ -84,6 +84,35 @@
             }
         }
       
+        function getData($fromCity, $toCity) {
+            $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)( \(([а-я]*) ([а-я]*)(\.\)|\)|\.|))?/ui";
+            
+            if ((true === $this->result["success"]) && 
+                (true === is_string($fromCity)) && 
+                (true === is_string($toCity)) && 
+                /** Проверяем на паттерн, предварительно удалив все лишние символы из запроса. */
+                (1 === preg_match($pattern, trim(strip_tags($fromCity)), $fromCityMatches)) && 
+                (1 === preg_match($pattern, trim(strip_tags($toCity)), $toCityMatches))) {
+                /** Если найдено совпадение в запросе по паттерну, копируем результат. */
+                $fromCity = $fromCityMatches[0];
+                $toCity = $toCityMatches[0];
+                /** Поиск в БД на совпадение по городам. */
+                $data = $this->sqlDB->query("SELECT * FROM cities WHERE City='$fromCity' AND Base_City='$toCity' 
+                                            UNION SELECT * FROM cities WHERE Base_City='$fromCity' AND City='$toCity'");
+                if (false === $data) {
+                    $this->result["success"] = false;
+                    $this->result["getData"] = "Error";
+                    $this->result["error"] = $this->sqlDB->error;
+                }
+                else {
+                    $this->result["getData"] = "success";
+                    for ($i = 0; $i < $data->num_rows; ++$i) {
+                        $this->result[$i] = $data->fetch_row();
+                    }
+                }
+            }
+        }
+      
         function isSuccess() { return $this->result["success"]; }
       
         function getResult() { return $this->result; }
@@ -100,6 +129,12 @@
     }
     else if (isset($_POST["baseCityString"])) {
         $DB->getBaseCityList($_POST["baseCityString"]);
+        $result = $DB->getResult();
+        $result["request"] = "correct";
+        echo json_encode($result);
+    }
+    else if (!empty($_POST["fromCity"]) && !empty($_POST["toCity"])) {
+        $DB->getData($_POST["fromCity"], $_POST["toCity"]);
         $result = $DB->getResult();
         $result["request"] = "correct";
         echo json_encode($result);
