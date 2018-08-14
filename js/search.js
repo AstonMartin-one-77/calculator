@@ -18,8 +18,10 @@ function requestBaseCityList(userString) {
             $("div.calculator ul#baseCityResult").html(cities).fadeIn();
         },
         error: function(xhr, status, error) {
-            $("div.calculator span#alert-message").text(error.message);
-            $("div.calculator div#connect-db-alert").show();
+            $("div.calculator div#search-db-alert span#search-alert-message")
+                .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
+                      error.message + "<br>" + xhr.responseText);
+            $("div.calculator div#search-db-alert").prop("hidden", false);
             
         },
         dataType: "json"
@@ -75,9 +77,10 @@ function requestCityList(baseCity, userString) {
             }
         },
         error: function(xhr, status, error) {
-            $("div.calculator span#alert-message").text(error.message);
-            $("div.calculator div#connect-db-alert").show();
-            
+            $("div.calculator div#search-db-alert span#search-alert-message")
+                .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
+                      error.message + "<br>" + xhr.responseText);
+            $("div.calculator div#search-db-alert").prop("hidden", false);
         },
         dataType: "json"
     });
@@ -248,9 +251,10 @@ $(function() {
                 }
             },
             error: function(xhr, status, error) {
-                $("div.calculator span#alert-message").text(error.message);
-                $("div.calculator div#connect-db-alert").show();
-
+                $("div.calculator div#search-db-alert span#search-alert-message")
+                .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
+                      error.message + "<br>" + xhr.responseText);
+                $("div.calculator div#search-db-alert").prop("hidden", false);
             },
             dataType: "json"
         });
@@ -273,45 +277,71 @@ $(function() {
                 }
             },
             error: function(xhr, status, error) {
-                $("div.calculator span#alert-message").text(error.message);
-                $("div.calculator div#connect-db-alert").show();
-
+                $("div.calculator div#search-db-alert span#search-alert-message")
+                .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
+                      error.message + "<br>" + xhr.responseText);
+                $("div.calculator div#search-db-alert").prop("hidden", false);
             },
             dataType: "json"
         });
     });
-  
-    // ОБРАБОТЧИК РАСЧЕТА КАЛЬКУЛЯТОРА:
-    $("div.calculator button#btnCalculate").click(function() {
-        var fromCity = $("div.calculator input#baseCity").val();
-        var toCity = $("div.calculator input#city").val();
-        if (("" !== fromCity) && ("" !== toCity)) {
-            $.ajax({
-                type: "post",
-                url: "php/search.php",
-                data: {
-                    "fromCity": fromCity,
-                    "toCity": toCity
-                },
-                response: "text",
-                success: function(list) {
-                    if (("correct" === list.request) && (true === list.success)) {
-                        if (1 === list.cities.length) {
-                            var fullName = list.cities[0];
-                            $("div.calculator input#city").val(fullName);
-                        }
-                    }
-                },
-                error: function(xhr, status, error) {
-                    $("div.calculator span#alert-message").text(error.message);
-                    $("div.calculator div#connect-db-alert").show();
-
-                },
-                dataType: "json"
-            });
-        }
-        else {
-            // TODO:
-        }
-    });
 });
+
+// ОБРАБОТЧИК РАСЧЕТА КАЛЬКУЛЯТОРА:
+function calculate() {
+    var fromCity = $("div.calculator input#baseCity").val();
+    var toCity = $("div.calculator input#city").val();
+    $.ajax({
+        type: "post",
+        url: "php/search.php",
+        data: {
+            "fromCity": fromCity,
+            "toCity": toCity
+        },
+        response: "text",
+        success: function(list) {
+            if (("correct" === list.request) && (true === list.success) && 
+                ("success" === list.getData)) {
+                var despatchList = $("div.calculator div.despatchList").children("div.despatch");
+                var fullWeights = new Array(despatchList.length);
+                // Считаем каждую позицию веса:
+                for (var i = 0; i < despatchList.length; ++i) {
+                    var weight = despatchList[i].find("input#weight").val();
+                    var volumeWeight = 0;
+                    switch(despatchList[i].find("img#despatch-icon").attr("alt")) {
+                      case "box":
+                        var len = despatchList[i].find("input#box-length").val();
+                        var width = despatchList[i].find("input#box-width").val();
+                        var height = despatchList[i].find("input#box-height").val();
+                        volumeWeight = (len * width * height) / 5000;
+                        break;
+                      case "roll":
+                        var len = despatchList[i].find("input#roll-length").val();
+                        var diameter = despatchList[i].find("input#roll-diameter").val();
+                        volumeWeight = (len * diameter * Math.PI) / 5000;
+                        break;
+                      default:
+                        break;
+                    }
+                    // Округляем в большую сторону:
+                    volumeWeight = Math.ceil(volumeWeight);
+                    // Выбираем большее:
+                    if (weight < volumeWeight) {
+                        fullWeights[i] = volumeWeight;
+                    } else {
+                        fullWeights[i] = weight;
+                    }
+                }
+                
+            }
+        },
+        error: function(xhr, status, error) {
+            $("div.calculator div#calculate-db-alert span#calculate-alert-message")
+            .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
+                  error.message + "<br>" + xhr.responseText);
+            $("div.calculator div#calculate-db-alert").prop("hidden", false);
+        },
+        dataType: "json"
+    });
+};
+

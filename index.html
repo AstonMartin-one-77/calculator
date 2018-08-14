@@ -25,7 +25,7 @@
             <h3 class="text-headline">Расчет доставки по России и СНГ</h3>
           </div>
         </div>
-        <form class="was-validated" id="data" action="calcHandler.php">
+        <form class="was-validated" id="formX" method="POST" action="javascript:void(null);" onsubmit="calculate()">
           <div class="row justify-content-center shadow-sm p-3 m-1">
             <div class="from-city col p-0 ml-3 mr-3">
               <label for="baseCity"><h4>Откуда</h4></label>
@@ -51,10 +51,10 @@
               <a class="popularCities" href="#">Москва</a>
             </div>
           </div>
-          <div class="row shadow-sm p-3 m-1" id="connect-db-alert" hidden>
+          <div class="row shadow-sm p-3 m-1" id="search-db-alert" hidden>
             <div class="col p-0 m-0">
               <div class="alert alert-danger" role="alert">
-                <span id="alert-message"></span>
+                <span id="search-alert-message"></span>
               </div>
             </div>
           </div>
@@ -84,31 +84,31 @@
                   <div class="col box-prms p-0">
                     <div class="prm p-1">
                       <label for="box-length">Длина (см)</label>
-                      <input type="text" name="box-length" id="box-length" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled>
+                      <input type="text" name="box-length" id="box-length" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10">
                     </div>
                   </div>
                   <div class="col box-prms p-0">
                     <div class="prm p-1">
                       <label for="box-width">Ширина (см)</label>
-                      <input type="text" name="box-width" id="box-width" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled>
+                      <input type="text" name="box-width" id="box-width" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10">
                     </div>
                   </div>
                   <div class="col box-prms p-0">
                     <div class="prm p-1">
                       <label for="box-height">Высота (см)</label>
-                      <input type="text" name="box-height" id="box-height" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled>
+                      <input type="text" name="box-height" id="box-height" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10">
                     </div>
                   </div>
                   <div class="col roll-prms p-0">
                     <div class="prm p-1">
                       <label for="roll-length">Длина (см)</label>
-                      <input type="text" name="roll-length" id="roll-length" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled>
+                      <input type="text" name="roll-length" id="roll-length" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10">
                     </div>
                   </div>
                   <div class="col roll-prms p-0">
                     <div class="prm p-1">
                       <label for="roll-diameter">Диаметр (см)</label>
-                      <input type="text" name="roll-diameter" id="roll-diameter" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled>
+                      <input type="text" name="roll-diameter" id="roll-diameter" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10">
                     </div>
                   </div>
                   <div class="col p-0">
@@ -131,12 +131,39 @@
           
           <div class="row shadow-sm justify-content-center p-3 m-1">
             <div class="col-auto">
-              <button type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnCalculate">Рассчитать</button>
+              <input type="submit" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnCalculate" value="Рассчитать">
             </div>
             <span class="close-despatch"></span>
           </div>
           
         </form>
+        <div class="row shadow-sm p-3 m-1" id="calculate-db-alert" hidden>
+          <div class="col p-0 m-0">
+            <div class="alert alert-danger" role="alert">
+              <span id="calculate-alert-message"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row shadow-sm p-3 m-1" id="calculate-result">
+          <div class="col p-0 m-0">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Режим доставки</th>
+                  <th scope="col">Срок доставки</th>
+                  <th scope="col">Цена</th>
+                </tr>
+              </thead>
+              <tbody class="body-results">
+                <tr class="row-parent">
+                  <th scope="col" class="mode">Тест</th>
+                  <th scope="col" class="date">Тест</th>
+                  <th scope="col" class="cost">Тест</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
         <div class="row shadow-sm justify-content-center p-3 m-1 rounded-bottom">
           <div class="col-auto">
             <div class="blockquote-footer text-headline">&copy; Copyright 2018 Delserv Company</div>
@@ -176,7 +203,7 @@
 
             // Обработчики переключения типа места (груза/отправления).
             $("div.calculator a#despatch-box").click(function() {
-                $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/box.svg");
+                $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/box.svg").attr("alt", "box");
                 $(this).closest("div.despatch").children("div.box-prms").each(function() {
                     $(this).toggle(true);
                 });
@@ -185,7 +212,7 @@
                 });
             });
             $("div.calculator a#despatch-roll").click(function() {
-                $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/roll.svg");
+                $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/roll.svg").attr("alt", "roll");
                 $(this).closest("div.despatch").children("div.box-prms").each(function() {
                     $(this).toggle(false);
                 });
@@ -214,28 +241,6 @@
                 var baseCity = $("div.calculator input#baseCity").val();
                 $("div.calculator input#baseCity").val($("div.calculator input#city").val());
                 $("div.calculator input#city").val(baseCity);
-            });
-          
-            // Обработчик ввода поля веса:
-            $("div.calculator input#weight").bind("change keyup input click", function() {
-                var parent = $(this).closest("div.despatch");
-                var number = Number($(this).val().replace(",", "\."));
-                if (number > 0.5) {
-                    parent.find("div.box-prms input").each(function() {
-                        $(this).prop("disabled", false);
-                    });
-                    parent.find("div.roll-prms input").each(function() {
-                        $(this).prop("disabled", false);
-                    });
-                }
-              else {
-                  parent.find("div.box-prms input").each(function() {
-                      $(this).prop("disabled", true);
-                  });
-                  parent.find("div.roll-prms input").each(function() {
-                      $(this).prop("disabled", true);
-                  });
-              }
             });
         });
     </script>

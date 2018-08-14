@@ -34,7 +34,7 @@
                 /** Проверяем результат. */
                 if (false === $data) {
                     $this->result["success"] = false;
-                    $this->result["getBaseCityList"] = "Error";
+                    $this->result["getBaseCityList"] = "error";
                     $this->result["error"] = $this->sqlDB->error;
                 }
                 else {
@@ -68,7 +68,7 @@
                 /** Проверяем результат. */
                 if (false === $data) {
                     $this->result["success"] = false;
-                    $this->result["getCityList"] = "Error";
+                    $this->result["getCityList"] = "error";
                     $this->result["error"] = $this->sqlDB->error;
                 }
                 else {
@@ -86,7 +86,12 @@
       
         function getData($fromCity, $toCity) {
             $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)( \(([а-я]*) ([а-я]*)(\.\)|\)|\.|))?/ui";
-            
+            // Формируемые данные (инициализируем стандартными данными):
+            $zone = 0;
+            $coeff = 1;
+            $modeDates = array();
+            $modeRates = array();
+            // Первая часть:
             if ((true === $this->result["success"]) && 
                 (true === is_string($fromCity)) && 
                 (true === is_string($toCity)) && 
@@ -97,19 +102,113 @@
                 $fromCity = $fromCityMatches[0];
                 $toCity = $toCityMatches[0];
                 /** Поиск в БД на совпадение по городам. */
-                $data = $this->sqlDB->query("SELECT * FROM cities WHERE City='$fromCity' AND Base_City='$toCity' 
-                                            UNION SELECT * FROM cities WHERE Base_City='$fromCity' AND City='$toCity'");
+                $data = $this->sqlDB->query("SELECT * FROM cities WHERE City='$fromCity' AND Base_City='$toCity' AND (Direction='BOTH' OR Direction='FROM')
+                                            UNION SELECT * FROM cities WHERE Base_City='$fromCity' AND City='$toCity' AND (Direction='BOTH' OR Direction='TO')");
                 if (false === $data) {
                     $this->result["success"] = false;
-                    $this->result["getData"] = "Error";
+                    $this->result["getData"] = "error";
                     $this->result["error"] = $this->sqlDB->error;
                 }
                 else {
-                    $this->result["getData"] = "success";
-                    for ($i = 0; $i < $data->num_rows; ++$i) {
-                        $this->result[$i] = $data->fetch_row();
+                    $part = "\{[a-z]+\:\[[0-9]+(?:-[0-9]+)\]\}";
+                    $dataPattern = "/\[([0-9]+)\]\[([0-9]+(?:\.|\,|)[0-9]*)\]($part)($part)?($part)?($part)?/ui";
+                    // Читаем данные в ассоциативные массив.
+                    $row = $data->fetch_array();
+                    // Проверяем результат чтения БД (таблица cities).
+                    if (1 === $data->num_rows) {
+                        if (1 === preg_match($dataPattern, $row["Data"], $dataMatches)) {
+                            // Получаем номер зоны, коэф. и даты доставок.
+                            $zone = $dataMatches[1];
+                            $coeff = $dataMatches[2];
+                            for ($i = 3; $i < count($dataMatches); ++$i) {
+                                $datePattern = "/\{([a-z]+)\:\[([0-9]+(?:-[0-9]+))\]/ui";
+                                if (1 === preg_match($datePattern, $dataMatches[$i], $dateMatches)) {
+                                    $modeDates[$dateMatches[1]] = $dateMatches[2];
+                                }
+                                else {
+                                    $this->result["success"] = false;
+                                    $this->result["getData"] = "error";
+                                    $this->result["error"] = "[cities] Check your date-format for: $dataMatches[$i]";
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            $this->result["success"] = false;
+                            $this->result["getData"] = "error";
+                            $rowId = $row['ID'];
+                            $this->result["error"] = "[cities] Check 'Data' column for your string patterns id=$rowId";
+                        }
+                    }
+                    else {
+                        $this->result["success"] = false;
+                        $this->result["getData"] = "error";
+                        $this->result["error"] = "Set of rows for this names (you should check DB)";
                     }
                 }
+            }
+            else {
+                $this->result["success"] = false;
+                $this->result["getData"] = "error";
+                $this->result["error"] = "Check your string pattern for city names";
+            }
+            // Вторая часть:
+            if (true === $this->result["success"]) {
+                /** Поиск в БД на совпадение по номеру зоны. */
+                $data = $this->sqlDB->query("SELECT * FROM zones WHERE Zone='$zone'");
+                if (false === $data) {
+                    $this->result["success"] = false;
+                    $this->result["getData"] = "error";
+                    $this->result["error"] = $this->sqlDB->error;
+                }
+                else {
+                    if ($data->num_rows > 0) {
+                        $ratePattern = "/\{([0-9]+)\|([0-9]+)\|([0-9]+)\}/ui";
+                        for ($i = 0; $i < $data->num_rows; ++$i) {
+                            // Читаем данные в ассоциативные массив.
+                            $row = $data->fetch_array();
+                            // Проверяем данные:
+                            if (1 === preg_match($ratePattern, $row["Data"], $rateMatches)) {
+                                $modeRates[$i]["name"] = $row["Delivery_Type"];
+                                $modeRates[$i][0] = $rateMatches[1];
+                                $modeRates[$i][1] = $rateMatches[2];
+                                $modeRates[$i][2] = $rateMatches[3];
+                            }
+                            else {
+                                $this->result["success"] = false;
+                                $this->result["getData"] = "error";
+                                $this->result["error"] = "[zones] Check your data-format for: $rateMatches[0]";
+                                break;
+                            }
+                        }
+                    }
+                    else {
+                        $this->result["success"] = false;
+                        $this->result["getData"] = "error";
+                        $this->result["error"] = "[zones] Not found this zone-number: $zone";
+                    }
+                }
+            }
+          
+            // Третья часть:
+            if (true === $this->result["success"]) {
+                $this->result["getData"] = "success";
+                $object = array();
+                $object["coeff"] = $coeff;
+                for ($i = 0; $i < count($modeRates); ++$i) {
+                    $tmpName = $modeRates[$i]["name"];
+                    $object[$i]["mode"] = $tmpName;
+                    $object[$i][0] = $modeRates[$i][0];
+                    $object[$i][1] = $modeRates[$i][1];
+                    $object[$i][2] = $modeRates[$i][2];
+                    if (isset($modeDates[$tmpName])) {
+                        $object[$i]["date"] = $modeDates[$tmpName];
+                    }
+                    else {
+                        $object[$i]["date"] = "N/A";
+                    }
+                }
+                $this->result["DATA"] = $object;
             }
         }
       
