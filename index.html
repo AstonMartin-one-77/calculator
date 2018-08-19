@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
   <head>
     <meta charset="utf-8">
@@ -29,7 +29,7 @@
           <div class="row justify-content-center shadow-sm p-3 m-1">
             <div class="from-city col p-0 ml-3 mr-3">
               <label for="baseCity"><h4>Откуда</h4></label>
-              <input type="search" name="baseCity" id="baseCity" class="form-control is-valid" placeholder="Пункт отправки" required>
+              <input type="search" name="baseCity" id="baseCity" class="form-control is-valid" placeholder="Пункт отправки" autocomplete="off" required>
               <span class="resultList">
                 <ul class="search_result shadow-sm pl-0" id="baseCityResult"></ul>
               </span>
@@ -43,7 +43,7 @@
             </div>
             <div class="to-city col p-0 ml-3 mr-3">
               <label for="city"><h4>Куда</h4></label>
-              <input type="search" name="city" id="city" class="form-control is-valid" placeholder="Пункт доставки" required>
+              <input type="search" name="city" id="city" class="form-control is-valid" placeholder="Пункт доставки" autocomplete="off" required>
               <span class="resultList">
                 <ul class="search_result shadow-sm pl-0" id="cityResult"></ul>
               </span>
@@ -70,6 +70,7 @@
                         <img class="svg-icon" id="despatch-icon" src="img/box.svg" alt="">
                       </button>
                       <div class="dropdown-menu">
+                        <a class="dropdown-item" id="despatch-envelope" href="#"><img class="svg-icon" src="img/doc.svg" alt="">Конверт</a>
                         <a class="dropdown-item" id="despatch-box" href="#"><img class="svg-icon" src="img/box.svg" alt="">Коробка</a>
                         <a class="dropdown-item" id="despatch-roll" href="#"><img class="svg-icon" src="img/roll.svg" alt="">Рулон</a>
                       </div>
@@ -202,6 +203,18 @@
             });
 
             // Обработчики переключения типа места (груза/отправления).
+            $("div.calculator a#despatch-envelope").click(function() {
+                $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/doc.svg").attr("alt", "envelope");
+                $(this).closest("div.despatch").children("div.env-prms").each(function() {
+                    $(this).toggle(true);
+                });
+                $(this).closest("div.despatch").children("div.box-prms").each(function() {
+                    $(this).toggle(false);
+                });
+                $(this).closest("div.despatch").children("div.roll-prms").each(function() {
+                    $(this).toggle(false);
+                });
+            });
             $("div.calculator a#despatch-box").click(function() {
                 $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/box.svg").attr("alt", "box");
                 $(this).closest("div.despatch").children("div.box-prms").each(function() {
@@ -210,14 +223,20 @@
                 $(this).closest("div.despatch").children("div.roll-prms").each(function() {
                     $(this).toggle(false);
                 });
+                $(this).closest("div.despatch").children("div.env-prms").each(function() {
+                    $(this).toggle(false);
+                });
             });
             $("div.calculator a#despatch-roll").click(function() {
                 $(this).closest("div.despatch").find("img#despatch-icon").attr("src", "img/roll.svg").attr("alt", "roll");
+                $(this).closest("div.despatch").children("div.roll-prms").each(function() {
+                    $(this).toggle(true);
+                });
                 $(this).closest("div.despatch").children("div.box-prms").each(function() {
                     $(this).toggle(false);
                 });
-                $(this).closest("div.despatch").children("div.roll-prms").each(function() {
-                    $(this).toggle(true);
+                $(this).closest("div.despatch").children("div.env-prms").each(function() {
+                    $(this).toggle(false);
                 });
             });
 
@@ -233,6 +252,10 @@
 
             // Скрываем родителя всех позиций (отправлений, грузов).
             $("div.calculator div.despatch-parent").toggle(false);
+            // Скрываем родитель элемента таблицы результата.
+            $("div.calculator tbody.body-results > tr.row-parent").toggle(false);
+            // Скрываем таблицу результата.
+            $("div.calculator div#calculate-result").toggle(false);
 
             // Эмулируем щелчок по кнопке добавления позиции (отправления, груза).
             $("div.calculator button#btnAddDespatch").click();

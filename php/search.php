@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 
     class calculatorDB {
 
@@ -194,20 +194,22 @@
             if (true === $this->result["success"]) {
                 $this->result["getData"] = "success";
                 $object = array();
+                $modes = array();
                 $object["coeff"] = $coeff;
                 for ($i = 0; $i < count($modeRates); ++$i) {
                     $tmpName = $modeRates[$i]["name"];
-                    $object[$i]["mode"] = $tmpName;
-                    $object[$i][0] = $modeRates[$i][0];
-                    $object[$i][1] = $modeRates[$i][1];
-                    $object[$i][2] = $modeRates[$i][2];
+                    $modes[$i]["mode"] = $tmpName;
+                    $modes[$i][0] = $modeRates[$i][0];
+                    $modes[$i][1] = $modeRates[$i][1];
+                    $modes[$i][2] = $modeRates[$i][2];
                     if (isset($modeDates[$tmpName])) {
-                        $object[$i]["date"] = $modeDates[$tmpName];
+                        $modes[$i]["date"] = $modeDates[$tmpName];
                     }
                     else {
                         $object[$i]["date"] = "N/A";
                     }
                 }
+                $object["modes"] = $modes;
                 $this->result["DATA"] = $object;
             }
         }

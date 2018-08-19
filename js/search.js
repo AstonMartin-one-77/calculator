@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 /* ПУНКТ ОТПРАВКИ: */
 var baseCityList = new Array();
 var isReady = false;
@@ -289,6 +289,12 @@ $(function() {
 
 // ОБРАБОТЧИК РАСЧЕТА КАЛЬКУЛЯТОРА:
 function calculate() {
+    // Скрываем таблицу результата.
+    $("div.calculator div#calculate-result").toggle(false);
+    // Удаляем предыдущие строки.
+    $("div.calculator tbody.body-results > tr.row").each(function(index, element) {
+        $(this).remove();
+    });
     var fromCity = $("div.calculator input#baseCity").val();
     var toCity = $("div.calculator input#city").val();
     $.ajax({
@@ -303,36 +309,57 @@ function calculate() {
             if (("correct" === list.request) && (true === list.success) && 
                 ("success" === list.getData)) {
                 var despatchList = $("div.calculator div.despatchList").children("div.despatch");
-                var fullWeights = new Array(despatchList.length);
-                // Считаем каждую позицию веса:
-                for (var i = 0; i < despatchList.length; ++i) {
-                    var weight = despatchList[i].find("input#weight").val();
+                var fullWeight = 0;
+                despatchList.each(function(index, element){
+                    var weight = getFloat($(this).find("input#weight").val());
                     var volumeWeight = 0;
-                    switch(despatchList[i].find("img#despatch-icon").attr("alt")) {
-                      case "box":
-                        var len = despatchList[i].find("input#box-length").val();
-                        var width = despatchList[i].find("input#box-width").val();
-                        var height = despatchList[i].find("input#box-height").val();
-                        volumeWeight = (len * width * height) / 5000;
-                        break;
-                      case "roll":
-                        var len = despatchList[i].find("input#roll-length").val();
-                        var diameter = despatchList[i].find("input#roll-diameter").val();
-                        volumeWeight = (len * diameter * Math.PI) / 5000;
-                        break;
-                      default:
-                        break;
+                    switch($(this).find("img#despatch-icon").attr("alt")) {
+                        case "envelope":
+                            if (weight > 0.5) {
+                                var len = getFloat($(this).find("input#envelope-length").val());
+                                var width = getFloat($(this).find("input#envelope-width").val());
+                                var height = getFloat($(this).find("input#envelope-height").val());
+                                volumeWeight = (len * width * height) / 5000;
+                            }
+                            break;
+                        case "box":
+                            var len = getFloat($(this).find("input#box-length").val());
+                            var width = getFloat($(this).find("input#box-width").val());
+                            var height = getFloat($(this).find("input#box-height").val());
+                            volumeWeight = (len * width * height) / 5000;
+                            break;
+                        case "roll":
+                            var len = getFloat($(this).find("input#roll-length").val());
+                            var diameter = getFloat($(this).find("input#roll-diameter").val());
+                            volumeWeight = (len * diameter * Math.PI) / 5000;
+                            break;
                     }
-                    // Округляем в большую сторону:
-                    volumeWeight = Math.ceil(volumeWeight);
-                    // Выбираем большее:
-                    if (weight < volumeWeight) {
-                        fullWeights[i] = volumeWeight;
+                    // Округляем веса:
+                    weight = (weight <= 0.5) ? 0.5 : Math.ceil(weight);
+                    volumeWeight = (volumeWeight <= 0.5) ? 0.5 : Math.ceil(volumeWeight);
+                    fullWeight += (weight >= volumeWeight) ? weight : volumeWeight;
+                });
+                for (var i = 0, modes = list.DATA.modes, coeff = getFloat(list.DATA.coeff); i < modes.length; ++i) {
+                    var fullCost = 0;
+                    var baseCost_0_5 = Number.parseInt(modes[i][0]);
+                    var baseCost_1 = Number.parseInt(modes[i][1]);
+                    var additionCost = Number.parseInt(modes[i][2]);
+                    if (fullWeight <= 0.5) {
+                        fullCost = baseCost_0_5 * coeff;
+                    } else if (fullWeight <= 1) {
+                        fullCost = baseCost_1 * coeff;
                     } else {
-                        fullWeights[i] = weight;
+                        fullCost = (baseCost_1 + (fullWeight - 1) * additionCost) * coeff;
                     }
+                    var newRow = $("div.calculator tbody.body-results > tr.row-parent").clone(true);
+                    newRow.toggleClass("row-parent row").find("th.mode").text(getRusMode(modes[i]["mode"]));
+                    newRow.toggleClass("row-parent row").find("th.date").text(modes[i]["date"]);
+                    newRow.toggleClass("row-parent row").find("th.cost").text(fullCost);
+                    newRow.appendTo("div.calculator tbody.body-results");
+                    newRow.toggle(true);
                 }
-                
+                // Отображаем таблицу результата.
+                $("div.calculator div#calculate-result").toggle(true);
             }
         },
         error: function(xhr, status, error) {
@@ -344,4 +371,23 @@ function calculate() {
         dataType: "json"
     });
 };
+
+function getFloat(floatStr) {
+    return Number.parseFloat(floatStr.replace(/,/, '.'));
+}
+
+function getRusMode(enMode) {
+    switch(enMode) {
+        case "economy":
+            return "Эконом";
+        case "standart":
+            return "Стандарт";
+        case "express":
+            return "Экспресс";
+        case "superexpress":
+            return "Суперэкспресс";
+        default:
+            return "Не определен";
+    };
+}
 
