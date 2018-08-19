@@ -359,7 +359,7 @@ function calculate() {
                     newRow.toggleClass("row-parent row");
                     newRow.find("th.mode").text(getRusMode(modes[i]["mode"]));
                     newRow.find("th.date").text(modes[i]["date"]);
-                    newRow.find("th.cost").text(Math.ceil(fullCost);
+                    newRow.find("th.cost").text(Math.ceil(fullCost));
                     newRow.appendTo("div.calculator tbody.body-results");
                     // Формируем вторую строку с ценой для людей без договора:
                     var newExtRow = newRow.clone(true);
