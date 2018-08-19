@@ -295,6 +295,9 @@ function calculate() {
     $("div.calculator tbody.body-results > tr.row").each(function(index, element) {
         $(this).remove();
     });
+    $("div.calculator tbody.body-results > tr.row-without-contract").each(function(index, element) {
+        $(this).remove();
+    });
     var fromCity = $("div.calculator input#baseCity").val();
     var toCity = $("div.calculator input#city").val();
     $.ajax({
@@ -316,9 +319,9 @@ function calculate() {
                     switch($(this).find("img#despatch-icon").attr("alt")) {
                         case "envelope":
                             if (weight > 0.5) {
-                                var len = getFloat($(this).find("input#envelope-length").val());
-                                var width = getFloat($(this).find("input#envelope-width").val());
-                                var height = getFloat($(this).find("input#envelope-height").val());
+                                var len = getFloat($(this).find("input#env-length").val());
+                                var width = getFloat($(this).find("input#env-width").val());
+                                var height = getFloat($(this).find("input#env-height").val());
                                 volumeWeight = (len * width * height) / 5000;
                             }
                             break;
@@ -335,12 +338,13 @@ function calculate() {
                             break;
                     }
                     // Округляем веса:
-                    weight = (weight <= 0.5) ? 0.5 : Math.ceil(weight);
-                    volumeWeight = (volumeWeight <= 0.5) ? 0.5 : Math.ceil(volumeWeight);
+                    weight = (weight <= 0.5) ? 0.5 : Math.ceil(weight.toFixed(2));
+                    volumeWeight = (volumeWeight <= 0.5) ? 0.5 : Math.ceil(volumeWeight.toFixed(1));
                     fullWeight += (weight >= volumeWeight) ? weight : volumeWeight;
                 });
                 for (var i = 0, modes = list.DATA.modes, coeff = getFloat(list.DATA.coeff); i < modes.length; ++i) {
                     var fullCost = 0;
+                    var withoutContract = 1.3;
                     var baseCost_0_5 = Number.parseInt(modes[i][0]);
                     var baseCost_1 = Number.parseInt(modes[i][1]);
                     var additionCost = Number.parseInt(modes[i][2]);
@@ -352,11 +356,22 @@ function calculate() {
                         fullCost = (baseCost_1 + (fullWeight - 1) * additionCost) * coeff;
                     }
                     var newRow = $("div.calculator tbody.body-results > tr.row-parent").clone(true);
-                    newRow.toggleClass("row-parent row").find("th.mode").text(getRusMode(modes[i]["mode"]));
-                    newRow.toggleClass("row-parent row").find("th.date").text(modes[i]["date"]);
-                    newRow.toggleClass("row-parent row").find("th.cost").text(fullCost);
+                    newRow.toggleClass("row-parent row");
+                    newRow.find("th.mode").text(getRusMode(modes[i]["mode"]));
+                    newRow.find("th.date").text(modes[i]["date"]);
+                    newRow.find("th.cost").text(Math.ceil(fullCost);
                     newRow.appendTo("div.calculator tbody.body-results");
-                    newRow.toggle(true);
+                    // Формируем вторую строку с ценой для людей без договора:
+                    var newExtRow = newRow.clone(true);
+                    newExtRow.toggleClass("row row-without-contract");
+                    newExtRow.find("th.cost").text(Math.ceil(fullCost * withoutContract));
+                    newExtRow.appendTo("div.calculator tbody.body-results");
+                    // В зависимости от положения кнопки выбираем строку с нужной ценой:
+                    if ($("div.calculator input#isContract").is(":checked")) {
+                        newRow.toggle(true);
+                    } else {
+                        newExtRow.toggle(true);
+                    }
                 }
                 // Отображаем таблицу результата.
                 $("div.calculator div#calculate-result").toggle(true);

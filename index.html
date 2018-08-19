@@ -82,6 +82,24 @@
                       <input type="text" name="weight" id="weight" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="0,5">
                     </div>
                   </div>
+                  <div class="col env-prms p-0">
+                    <div class="prm p-1">
+                      <label for="env-length">Длина (см)</label>
+                      <input type="text" name="env-length" id="env-length" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled>
+                    </div>
+                  </div>
+                  <div class="col env-prms p-0">
+                    <div class="prm p-1">
+                      <label for="env-width">Ширина (см)</label>
+                      <input type="text" name="env-width" id="env-width" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled>
+                    </div>
+                  </div>
+                  <div class="col env-prms p-0">
+                    <div class="prm p-1">
+                      <label for="env-height">Высота (см)</label>
+                      <input type="text" name="env-height" id="env-height" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled>
+                    </div>
+                  </div>
                   <div class="col box-prms p-0">
                     <div class="prm p-1">
                       <label for="box-length">Длина (см)</label>
@@ -163,6 +181,10 @@
                 </tr>
               </tbody>
             </table>
+            <div class="custom-control custom-checkbox mr-sm-2 m-3">
+              <input type="checkbox" class="custom-control-input" id="isContract">
+              <label class="custom-control-label" for="isContract">Имеете ли Вы договор с нами?</label>
+            </div>
           </div>
         </div>
         <div class="row shadow-sm justify-content-center p-3 m-1 rounded-bottom">
@@ -256,15 +278,52 @@
             $("div.calculator tbody.body-results > tr.row-parent").toggle(false);
             // Скрываем таблицу результата.
             $("div.calculator div#calculate-result").toggle(false);
+          
+            // Обработка checkbox при выборе ответа на вопрос о договоре.
+            $("div.calculator input#isContract").bind("click", function() {
+                if($(this).is(':checked')) {
+                    $("div.calculator tbody.body-results > tr.row").each(function() {
+                        $(this).toggle(true);
+                    });
+                    $("div.calculator tbody.body-results > tr.row-without-contract").each(function() {
+                        $(this).toggle(false);
+                    });
+                }
+                else {
+                    $("div.calculator tbody.body-results > tr.row-without-contract").each(function() {
+                        $(this).toggle(true);
+                    });
+                    $("div.calculator tbody.body-results > tr.row").each(function() {
+                        $(this).toggle(false);
+                    });
+                }
+            });
 
-            // Эмулируем щелчок по кнопке добавления позиции (отправления, груза).
-            $("div.calculator button#btnAddDespatch").click();
-
+            
             $("div.calculator button#btnReverse").click(function() {
                 var baseCity = $("div.calculator input#baseCity").val();
                 $("div.calculator input#baseCity").val($("div.calculator input#city").val());
                 $("div.calculator input#city").val(baseCity);
             });
+            
+            // Обработка веса при вводе пользователя (для управления активностью полей в тип упаковки - конверт).
+            $("div.calculator div.despatch-parent input#weight").bind("change keyup input click", function() {
+                var weightStr = $(this).val();
+                var weight = Number.parseFloat(weightStr.replace(/,/, '.'));
+                var envInputs = $(this).closest("div.despatch").find("input[id^='env-']");
+                if (weight > 0.5) {
+                    envInputs.each(function() {
+                        $(this).attr("disabled", false);
+                    });
+                } else {
+                    envInputs.each(function() {
+                        $(this).attr("disabled", true);
+                    });
+                }
+            });
+            
+            // Эмулируем щелчок по кнопке добавления позиции (отправления, груза).
+            $("div.calculator button#btnAddDespatch").click();
         });
     </script>
   </body>
