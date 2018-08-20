@@ -313,68 +313,70 @@ function calculate() {
                 ("success" === list.getData)) {
                 var despatchList = $("div.calculator div.despatchList").children("div.despatch");
                 var fullWeight = 0;
-                despatchList.each(function(index, element){
-                    var weight = getFloat($(this).find("input#weight").val());
-                    var volumeWeight = 0;
-                    switch($(this).find("img#despatch-icon").attr("alt")) {
-                        case "envelope":
-                            if (weight > 0.5) {
-                                var len = getFloat($(this).find("input#env-length").val());
-                                var width = getFloat($(this).find("input#env-width").val());
-                                var height = getFloat($(this).find("input#env-height").val());
+                if (despatchList.length > 0) {
+                    despatchList.each(function(index, element){
+                        var weight = getFloat($(this).find("input#weight").val());
+                        var volumeWeight = 0;
+                        switch($(this).find("img#despatch-icon").attr("alt")) {
+                            case "envelope":
+                                if (weight > 0.5) {
+                                    var len = getFloat($(this).find("input#env-length").val());
+                                    var width = getFloat($(this).find("input#env-width").val());
+                                    var height = getFloat($(this).find("input#env-height").val());
+                                    volumeWeight = (len * width * height) / 5000;
+                                }
+                                break;
+                            case "box":
+                                var len = getFloat($(this).find("input#box-length").val());
+                                var width = getFloat($(this).find("input#box-width").val());
+                                var height = getFloat($(this).find("input#box-height").val());
                                 volumeWeight = (len * width * height) / 5000;
-                            }
-                            break;
-                        case "box":
-                            var len = getFloat($(this).find("input#box-length").val());
-                            var width = getFloat($(this).find("input#box-width").val());
-                            var height = getFloat($(this).find("input#box-height").val());
-                            volumeWeight = (len * width * height) / 5000;
-                            break;
-                        case "roll":
-                            var len = getFloat($(this).find("input#roll-length").val());
-                            var diameter = getFloat($(this).find("input#roll-diameter").val());
-                            volumeWeight = (len * diameter * Math.PI) / 5000;
-                            break;
+                                break;
+                            case "roll":
+                                var len = getFloat($(this).find("input#roll-length").val());
+                                var diameter = getFloat($(this).find("input#roll-diameter").val());
+                                volumeWeight = (len * diameter * Math.PI) / 5000;
+                                break;
+                        }
+                        // Округляем веса:
+                        weight = (weight <= 0.5) ? 0.5 : Math.ceil(weight.toFixed(2));
+                        volumeWeight = (volumeWeight <= 0.5) ? 0.5 : Math.ceil(volumeWeight.toFixed(1));
+                        fullWeight += (weight >= volumeWeight) ? weight : volumeWeight;
+                    });
+                    for (var i = 0, modes = list.DATA.modes, coeff = getFloat(list.DATA.coeff); i < modes.length; ++i) {
+                        var fullCost = 0;
+                        var withoutContract = 1.3;
+                        var baseCost_0_5 = Number.parseInt(modes[i][0]);
+                        var baseCost_1 = Number.parseInt(modes[i][1]);
+                        var additionCost = Number.parseInt(modes[i][2]);
+                        if (fullWeight <= 0.5) {
+                            fullCost = baseCost_0_5 * coeff;
+                        } else if (fullWeight <= 1) {
+                            fullCost = baseCost_1 * coeff;
+                        } else {
+                            fullCost = (baseCost_1 + (fullWeight - 1) * additionCost) * coeff;
+                        }
+                        var newRow = $("div.calculator tbody.body-results > tr.row-parent").clone(true);
+                        newRow.toggleClass("row-parent row");
+                        newRow.find("th.mode").text(getRusMode(modes[i]["mode"]));
+                        newRow.find("th.date").text(modes[i]["date"]);
+                        newRow.find("th.cost").text(Math.ceil(fullCost));
+                        newRow.appendTo("div.calculator tbody.body-results");
+                        // Формируем вторую строку с ценой для людей без договора:
+                        var newExtRow = newRow.clone(true);
+                        newExtRow.toggleClass("row row-without-contract");
+                        newExtRow.find("th.cost").text(Math.ceil(fullCost * withoutContract));
+                        newExtRow.appendTo("div.calculator tbody.body-results");
+                        // В зависимости от положения кнопки выбираем строку с нужной ценой:
+                        if ($("div.calculator input#isContract").is(":checked")) {
+                            newRow.toggle(true);
+                        } else {
+                            newExtRow.toggle(true);
+                        }
                     }
-                    // Округляем веса:
-                    weight = (weight <= 0.5) ? 0.5 : Math.ceil(weight.toFixed(2));
-                    volumeWeight = (volumeWeight <= 0.5) ? 0.5 : Math.ceil(volumeWeight.toFixed(1));
-                    fullWeight += (weight >= volumeWeight) ? weight : volumeWeight;
-                });
-                for (var i = 0, modes = list.DATA.modes, coeff = getFloat(list.DATA.coeff); i < modes.length; ++i) {
-                    var fullCost = 0;
-                    var withoutContract = 1.3;
-                    var baseCost_0_5 = Number.parseInt(modes[i][0]);
-                    var baseCost_1 = Number.parseInt(modes[i][1]);
-                    var additionCost = Number.parseInt(modes[i][2]);
-                    if (fullWeight <= 0.5) {
-                        fullCost = baseCost_0_5 * coeff;
-                    } else if (fullWeight <= 1) {
-                        fullCost = baseCost_1 * coeff;
-                    } else {
-                        fullCost = (baseCost_1 + (fullWeight - 1) * additionCost) * coeff;
-                    }
-                    var newRow = $("div.calculator tbody.body-results > tr.row-parent").clone(true);
-                    newRow.toggleClass("row-parent row");
-                    newRow.find("th.mode").text(getRusMode(modes[i]["mode"]));
-                    newRow.find("th.date").text(modes[i]["date"]);
-                    newRow.find("th.cost").text(Math.ceil(fullCost));
-                    newRow.appendTo("div.calculator tbody.body-results");
-                    // Формируем вторую строку с ценой для людей без договора:
-                    var newExtRow = newRow.clone(true);
-                    newExtRow.toggleClass("row row-without-contract");
-                    newExtRow.find("th.cost").text(Math.ceil(fullCost * withoutContract));
-                    newExtRow.appendTo("div.calculator tbody.body-results");
-                    // В зависимости от положения кнопки выбираем строку с нужной ценой:
-                    if ($("div.calculator input#isContract").is(":checked")) {
-                        newRow.toggle(true);
-                    } else {
-                        newExtRow.toggle(true);
-                    }
+                    // Отображаем таблицу результата.
+                    $("div.calculator div#calculate-result").toggle(true);
                 }
-                // Отображаем таблицу результата.
-                $("div.calculator div#calculate-result").toggle(true);
             }
         },
         error: function(xhr, status, error) {
