@@ -1,6 +1,6 @@
-<?php 
+ï»¿<?php 
 	require '../vendor/autoload.php';
-	// Êëàññ, íåïîñðåäñòâåííî ÷èòàþùèé ôàéë
+	// ÐšÐ»Ð°ÑÑ, Ð½ÐµÐ¿Ð¾ÑÑ€ÐµÐ´ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ Ñ‡Ð¸Ñ‚Ð°ÑŽÑ‰Ð¸Ð¹ Ñ„Ð°Ð¹Ð»
 	use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 	use PhpOffice\PhpSpreadsheet\Reader\IReadFilter;
 	use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -27,19 +27,21 @@
 		}
 	}
 	
-	// Ñîçäàåì îáúåêò ÷òåíèÿ òàáëèöû.
+	// Ð¡Ð¾Ð·Ð´Ð°ÐµÐ¼ Ð¾Ð±ÑŠÐµÐºÑ‚ Ñ‡Ñ‚ÐµÐ½Ð¸Ñ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹.
 	$reader = new Xlsx();
-	// Òðåáóåòñÿ òîëüêî ÷òåíèå. Ôîðìàòèðîâàíèå è îñòàëüíûå íþàíñû íå íóæíû.
+	// Ð¢Ñ€ÐµÐ±ÑƒÐµÑ‚ÑÑ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ñ‡Ñ‚ÐµÐ½Ð¸Ðµ. Ð¤Ð¾Ñ€Ð¼Ð°Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð¸ Ð¾ÑÑ‚Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð½ÑŽÐ°Ð½ÑÑ‹ Ð½Ðµ Ð½ÑƒÐ¶Ð½Ñ‹.
 	$reader->setReadDataOnly(true);
-	// Íàñòðàèâàåì ôèëüòð äëÿ ÷òåíèÿ ÷àñòè ôàéëà.
+	// ÐÐ°ÑÑ‚Ñ€Ð°Ð¸Ð²Ð°ÐµÐ¼ Ñ„Ð¸Ð»ÑŒÑ‚Ñ€ Ð´Ð»Ñ Ñ‡Ñ‚ÐµÐ½Ð¸Ñ Ñ‡Ð°ÑÑ‚Ð¸ Ñ„Ð°Ð¹Ð»Ð°.
 	$filter = new PartReadFilter(1, 1, range('A', 'E'));
 	$reader->setReadFilter($filter);
-	// Çàãðóæàåì ôàéë.
-	$spreadsheet = $reader->load("cities/DELS_Ñàíêò-Ïåòåðáóðã.xlsx");
-	// Äîñòàåì îáúåêò Cells, èìåþùèé äîñòóï ê ñîäåðæèìîìó ÿ÷ååê
+	// Ð—Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÐ¼ Ñ„Ð°Ð¹Ð».
+	$spreadsheet = $reader->load("cities/DELS.xlsx");
+	// Ð”Ð¾ÑÑ‚Ð°ÐµÐ¼ Ð¾Ð±ÑŠÐµÐºÑ‚ Cells, Ð¸Ð¼ÐµÑŽÑ‰Ð¸Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿ Ðº ÑÐ¾Ð´ÐµÑ€Ð¶Ð¸Ð¼Ð¾Ð¼Ñƒ ÑÑ‡ÐµÐµÐº
 	$cells = $spreadsheet->getActiveSheet()->getCellCollection();
 	
+    $result = null;
 	for ($col = 'A', $row = 1; $col <= 'E'; ++$col) {
-		echo $cells->get($col.$row)->getValue();
+        $result[$col] = $cells->get($col.$row)->getValue();
 	}
+    echo json_encode($result);
 ?>

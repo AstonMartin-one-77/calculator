@@ -1,7 +1,7 @@
-<?php
+ï»¿<?php
   $login = $_POST['login'];
   $pass = $_POST['pass'];
   if (($login == "Admin") && ($pass == "AdminPass"))
-    echo "Ïðèâåò, Admin!";
-  else echo "Äîñòóï çàêðûò";
+    echo "ÐŸÑ€Ð¸Ð²ÐµÑ‚, Admin!";
+  else echo "Ð”Ð¾ÑÑ‚ÑƒÐ¿ Ð·Ð°ÐºÑ€Ñ‹Ñ‚";
 ?>

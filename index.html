@@ -187,6 +187,12 @@
             </div>
           </div>
         </div>
+        <div class="row shadow-sm p-3 m-1">
+          <div class="col p-0 m-0">
+            <input type="file" id="fileExplorer" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <button id="loadBtn">Load</button>
+          </div>
+        </div>
         <div class="row shadow-sm justify-content-center p-3 m-1 rounded-bottom">
           <div class="col-auto">
             <div class="blockquote-footer text-headline">&copy; Copyright 2018 Delserv Company</div>
@@ -207,15 +213,6 @@
     <script>
         
         $(function() {
-            /*$("input[name='answerVWeight']").on("change", function() {
-                $("#inputVWeight").toggle(this.value === "yes" && this.checked);
-                $("#calcVWeight").toggle(this.value === "no" && this.checked);
-            }).change();
-            $("input[name='figureType']").on("change", function() {
-                $("#documentPrms").toggle(this.value === "doc" && this.checked);
-                $("#cubePrms").toggle(this.value === "cube" && this.checked);
-                $("#cylinderPrms").toggle(this.value === "cylinder" && this.checked);
-            }).change();*/
 
             $("div.calculator button#btnAddDespatch").click(function() {
                 var newDespatch = $("div.calculator div.despatch-parent").clone(true);
@@ -351,6 +348,71 @@
             
             // Эмулируем щелчок по кнопке добавления позиции (отправления, груза).
             $("div.calculator button#btnAddDespatch").click();
+          
+            $("div.calculator button#loadBtn").click(function() {
+                // Загружаем все файлы в переменную:
+                var files = $("div.calculator input#fileExplorer").prop("files");
+                // Нет файлов - дальнейшей загрузки не происходит:
+                if (0 === files.length) {
+                    alert("Должно быть выбрано не менее 1 файла (.xlsx)"); 
+                    return;
+                }
+                // Переменная с данными формы:
+                var form_data = new FormData();
+                // Загружаем файлы в переменную:
+                $.each(files, function(key, value) {
+                    // Требуются только .xlsx файлы:
+                    if (value.type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+                        alert("Для загрузки доступны только файлы MS Excel 2007+ (.xlsx)");
+                        return;
+                    }
+                    form_data.append(key, value);
+                });
+                form_data.append("admin_loader", 1);
+                $.ajax({
+                    url:            "php/loader.php",
+                    type:           "post",
+                    dataType:       "json",
+                    data:           form_data,
+                    cache:          false,
+                    processData:    false,
+                    contentType:    false,
+                    response:       "json",
+                    success:        function(response, status, jqXHR) {
+                        if (("correct" === response.request) && (true === response.success)) {
+                            
+                        }
+                    },
+                    error:          function(xhr, status, error) {
+                        $("div.calculator div#search-db-alert span#search-alert-message")
+                            .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
+                                  error.message + "<br>" + xhr.responseText);
+                        $("div.calculator div#search-db-alert").prop("hidden", false);
+                    }
+                  
+                })
+                /*
+                $.ajax({
+                    type: "post",
+                    url: "php/loader.php",
+                    dataType: "text",
+                    cache: false,
+	                contentType: false,
+	                processData: false,
+                    data: form_data,
+                    response: "json",
+                    success: function(list) {
+                        alert(list);
+                    },
+                    error: function(xhr, status, error) {
+                        $("div.calculator div#search-db-alert span#search-alert-message")
+                            .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
+                                  error.message + "<br>" + xhr.responseText);
+                        $("div.calculator div#search-db-alert").prop("hidden", false);
+
+                    }
+                });*/
+            });
         });
     </script>
   </body>
