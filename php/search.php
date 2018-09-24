@@ -51,7 +51,7 @@
         }
       
         function getCityList($baseCity, $userString) {
-            $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)( \(([а-я]*) ([а-я]*)(\.\)|\)|\.|))?/ui";
+            $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)( \(([а-я]*)( ([а-я]*)(\.\)|\)|\.|)?))?/ui";
             
             if ((true === $this->result["success"]) && 
                 (true === is_string($baseCity)) && 
