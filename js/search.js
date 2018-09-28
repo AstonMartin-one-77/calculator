@@ -11,18 +11,28 @@ function requestBaseCityList(userString) {
             "baseCityString": userString
         },
         response: "text",
-        success: function(list) {
-            /* Обновляем список городов. */
-            setBaseCityList(list.cities);
-            var cities = getBaseCityList($("div.calculator input#baseCity").val());
-            $("div.calculator ul#baseCityResult").html(cities).fadeIn();
+        success: function(response, status, jqXHR) {
+            if (true === response.success) {
+                /* Обновляем список городов. */
+                setBaseCityList(response.cities);
+                var cities = getBaseCityList($("div.calculator input#baseCity").val());
+                $("div.calculator ul#baseCityResult").html(cities).fadeIn();
+            } else {
+                if (null !== response.error) {
+                    $("div.calculator div#search-db-alert span#search-alert-message")
+                        .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
+                              "Сообщение об ошибке:<br>" + response.error);
+                    $("div.calculator div#search-db-alert").prop("hidden", false);
+                } else if (null !== response.message) {
+                    alert(response.message);
+                }
+            }
         },
         error: function(xhr, status, error) {
             $("div.calculator div#search-db-alert span#search-alert-message")
                 .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
                       error.message + "<br>" + xhr.responseText);
             $("div.calculator div#search-db-alert").prop("hidden", false);
-            
         },
         dataType: "json"
     });
@@ -68,12 +78,21 @@ function requestCityList(baseCity, userString) {
             "toCityString": userString
         },
         response: "text",
-        success: function(list) {
-            if (("correct" === list.request) && (true === list.success)) {
+        success: function(response, status, jqXHR) {
+            if (true === response.success) {
                 /* Обновляем список городов. */
-                setCityList(list.cities);
+                setCityList(response.cities);
                 var cities = getCityList($("div.calculator input#city").val());
                 $("div.calculator ul#cityResult").html(cities).fadeIn();
+            } else {
+                if (null !== response.error) {
+                    $("div.calculator div#search-db-alert span#search-alert-message")
+                        .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
+                              "Сообщение об ошибке:<br>" + response.error);
+                    $("div.calculator div#search-db-alert").prop("hidden", false);
+                } else if (null !== response.message) {
+                    alert(response.message);
+                }
             }
         },
         error: function(xhr, status, error) {
@@ -242,11 +261,20 @@ $(function() {
                 "baseCityString": cityName
             },
             response: "text",
-            success: function(list) {
-                if (("correct" === list.request) && (true === list.success)) {
-                    if (1 === list.cities.length) {
-                        var fullName = list.cities[0];
+            success: function(response, status, jqXHR) {
+                if (true === response.success) {
+                    if (1 === response.cities.length) {
+                        var fullName = response.cities[0];
                         $("div.calculator input#baseCity").val(fullName);
+                    }
+                } else {
+                    if (null !== response.error) {
+                        $("div.calculator div#search-db-alert span#search-alert-message")
+                            .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
+                                  "Сообщение об ошибке:<br>" + response.error);
+                        $("div.calculator div#search-db-alert").prop("hidden", false);
+                    } else if (null !== response.message) {
+                        alert(response.message);
                     }
                 }
             },
@@ -268,11 +296,20 @@ $(function() {
                 "baseCityString": cityName
             },
             response: "text",
-            success: function(list) {
-                if (("correct" === list.request) && (true === list.success)) {
-                    if (1 === list.cities.length) {
-                        var fullName = list.cities[0];
+            success: function(response, status, jqXHR) {
+                if (true === response.success) {
+                    if (1 === response.cities.length) {
+                        var fullName = response.cities[0];
                         $("div.calculator input#city").val(fullName);
+                    }
+                } else {
+                    if (null !== response.error) {
+                        $("div.calculator div#search-db-alert span#search-alert-message")
+                            .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
+                                  "Сообщение об ошибке:<br>" + response.error);
+                        $("div.calculator div#search-db-alert").prop("hidden", false);
+                    } else if (null !== response.message) {
+                        alert(response.message);
                     }
                 }
             },
@@ -308,9 +345,8 @@ function calculate() {
             "toCity": toCity
         },
         response: "text",
-        success: function(list) {
-            if (("correct" === list.request) && (true === list.success) && 
-                ("success" === list.getData)) {
+        success: function(response, status, jqXHR) {
+            if (true === response.success) {
                 var despatchList = $("div.calculator div.despatchList").children("div.despatch");
                 var fullWeight = 0;
                 if (despatchList.length > 0) {
@@ -343,7 +379,7 @@ function calculate() {
                         volumeWeight = (volumeWeight <= 0.5) ? 0.5 : Math.ceil(volumeWeight.toFixed(1));
                         fullWeight += (weight >= volumeWeight) ? weight : volumeWeight;
                     });
-                    for (var i = 0, modes = list.DATA.modes, coeff = getFloat(list.DATA.coeff); i < modes.length; ++i) {
+                    for (var i = 0, modes = response.DATA.modes, coeff = getFloat(response.DATA.coeff); i < modes.length; ++i) {
                         var fullCost = 0;
                         var withoutContract = 1.3;
                         var baseCost_0_5 = Number.parseInt(modes[i][0]);
@@ -378,10 +414,14 @@ function calculate() {
                     $("div.calculator div#calculate-result").toggle(true);
                 }
             } else {
-                $("div.calculator div#calculate-db-alert span#calculate-alert-message")
-                    .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
-                          "Сообщение об ошибке: <br>" + list.error);
-                $("div.calculator div#calculate-db-alert").prop("hidden", false);
+                if (null !== response.error) {
+                    $("div.calculator div#search-db-alert span#search-alert-message")
+                        .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
+                              "Сообщение об ошибке:<br>" + response.error);
+                    $("div.calculator div#search-db-alert").prop("hidden", false);
+                } else if (null !== response.message) {
+                    alert(response.message);
+                }
             }
         },
         error: function(xhr, status, error) {
