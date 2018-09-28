@@ -377,12 +377,17 @@ function calculate() {
                     // Отображаем таблицу результата.
                     $("div.calculator div#calculate-result").toggle(true);
                 }
+            } else {
+                $("div.calculator div#calculate-db-alert span#calculate-alert-message")
+                    .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
+                          "Сообщение об ошибке: <br>" + list.error);
+                $("div.calculator div#calculate-db-alert").prop("hidden", false);
             }
         },
         error: function(xhr, status, error) {
             $("div.calculator div#calculate-db-alert span#calculate-alert-message")
-            .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
-                  error.message + "<br>" + xhr.responseText);
+                .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
+                      error.message + "<br>" + xhr.responseText);
             $("div.calculator div#calculate-db-alert").prop("hidden", false);
         },
         dataType: "json"

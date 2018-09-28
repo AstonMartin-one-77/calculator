@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Обновление данных</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="calculator">
+      <div class="container">
+        <div class="row shadow-sm m-1 rounded-top">
+          <div class="col">
+            <h3 class="text-headline">Обновить данные калькулятора</h3>
+          </div>
+        </div>
+        <form class="was-validated" id="formX" method="POST" action="javascript:void(null);">
+          <div class="row justify-content-center shadow-sm p-3 m-1">
+            <div class="col p-0 ml-3 mr-3">
+              <label for="userLogin"><h4>Логин пользователя</h4></label>
+              <input type="text" name="userLogin" id="userLogin" class="form-control is-valid" placeholder="Введите логин" required>
+            </div>
+            <div class="col p-0 ml-3 mr-3">
+              <label for="userPassword"><h4>Пароль пользователя</h4></label>
+              <input type="password" name="userPassword" id="userPassword" class="form-control is-valid" placeholder="Введите пароль" required>
+            </div>
+          </div>
+          <div class="row justify-content-center shadow-sm p-3 m-1">
+            <div class="col p-0 ml-3 mr-3">
+              <label for="dbHost"><h4>Хост Базы Данных</h4></label>
+              <input type="text" name="dbHost" id="dbHost" class="form-control is-valid" placeholder="Введите хост БД" required>
+            </div>
+            <div class="col p-0 ml-3 mr-3">
+              <label for="dbName"><h4>Имя Базы Данных</h4></label>
+              <input type="text" name="dbName" id="dbName" class="form-control is-valid" placeholder="Введите имя БД" required>
+            </div>
+          </div>
+          <div class="row justify-content-center shadow-sm p-3 m-1">
+            <div class="col p-0 ml-3 mr-3">
+              <label for="dbUser"><h4>Логин (База Данных)</h4></label>
+              <input type="text" name="dbUser" id="dbUser" class="form-control is-valid" placeholder="Введите логин" required>
+            </div>
+            <div class="col p-0 ml-3 mr-3">
+              <label for="dbPassword"><h4>Пароль (База Данных)</h4></label>
+              <input type="password" name="dbPassword" id="dbPassword" class="form-control is-valid" placeholder="Введите пароль" required>
+            </div>
+          </div>
+          
+        </form>
+        
+        <div class="row shadow-sm justify-content-center p-3 m-1">
+          <div class="col p-0 ml-3 mr-3">
+            <label for="btnBrowse"><h4>Выберите файл (Таблица направлений)</h4></label>
+            <label class="btn border-dark btn-warning btn-lg btn-block shadow-sm">
+              Выбрать
+              <input type="file" name="btnBrowse" id="btnBrowse" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="$('#upload-file-info').html(this.files[0].name)" hidden>
+            </label>
+            <span class='label label-info' id="upload-file-info"></span>
+            <input type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnLoader" onclick="loader()" value="Загрузить">
+          </div>
+          <div class="col p-0 ml-3 mr-3">
+            <label for="btnCleaner"><h4>Очистка таблицы направлений</h4></label>
+            <input type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnCleaner" value="Очистить">
+          </div>
+        </div>
+        
+        <div class="row shadow-sm p-3 m-1" id="load-db-success" hidden>
+          <div class="col p-0 m-0">
+            <div class="alert alert-success" role="alert">
+              <span id="load-success-message"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row shadow-sm p-3 m-1" id="load-db-alert" hidden>
+          <div class="col p-0 m-0">
+            <div class="alert alert-danger" role="alert">
+              <span id="load-alert-message"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row shadow-sm justify-content-center p-3 m-1 rounded-bottom">
+          <div class="col-auto">
+            <div class="blockquote-footer text-headline">&copy; Copyright 2018 Delserv Company</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.js"></script>
+    <script src="js/loader.js"></script>
+    
+</body>
+</html>
