@@ -5,36 +5,37 @@ var isReady = false;
 
 function requestBaseCityList(userString) {
     $.ajax({
-        type: "post",
-        url: "php/search.php",
+        type:       "post",
+        url:        "php/search.php",
+        dataType:   "json",
         data: {
-            "baseCityString": userString
+                    "base_city_list": 1,
+                    "baseCityString": userString
         },
-        response: "text",
-        success: function(response, status, jqXHR) {
+        response:   "json",
+        success:    function(response, status, jqXHR) {
             if (true === response.success) {
                 /* Обновляем список городов. */
                 setBaseCityList(response.cities);
                 var cities = getBaseCityList($("div.calculator input#baseCity").val());
                 $("div.calculator ul#baseCityResult").html(cities).fadeIn();
             } else {
-                if (null !== response.error) {
+                if (undefined !== response.error) {
                     $("div.calculator div#search-db-alert span#search-alert-message")
                         .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                               "Сообщение об ошибке:<br>" + response.error);
                     $("div.calculator div#search-db-alert").prop("hidden", false);
-                } else if (null !== response.message) {
+                } else if (undefined !== response.message) {
                     alert(response.message);
                 }
             }
         },
-        error: function(xhr, status, error) {
+        error:      function(xhr, status, error) {
             $("div.calculator div#search-db-alert span#search-alert-message")
                 .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
                       error.message + "<br>" + xhr.responseText);
             $("div.calculator div#search-db-alert").prop("hidden", false);
-        },
-        dataType: "json"
+        }
     });
 }
 
@@ -71,37 +72,38 @@ var listIsReady = false;
 
 function requestCityList(baseCity, userString) {
     $.ajax({
-        type: "post",
-        url: "php/search.php",
+        type:       "post",
+        url:        "php/search.php",
+        dataType:   "json",
         data: {
-            "baseCityString": baseCity,
-            "toCityString": userString
+                    "city_list": 1,
+                    "baseCityString": baseCity,
+                    "toCityString": userString
         },
-        response: "text",
-        success: function(response, status, jqXHR) {
+        response:   "json",
+        success:    function(response, status, jqXHR) {
             if (true === response.success) {
                 /* Обновляем список городов. */
                 setCityList(response.cities);
                 var cities = getCityList($("div.calculator input#city").val());
                 $("div.calculator ul#cityResult").html(cities).fadeIn();
             } else {
-                if (null !== response.error) {
+                if (undefined !== response.error) {
                     $("div.calculator div#search-db-alert span#search-alert-message")
                         .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                               "Сообщение об ошибке:<br>" + response.error);
                     $("div.calculator div#search-db-alert").prop("hidden", false);
-                } else if (null !== response.message) {
+                } else if (undefined !== response.message) {
                     alert(response.message);
                 }
             }
         },
-        error: function(xhr, status, error) {
+        error:      function(xhr, status, error) {
             $("div.calculator div#search-db-alert span#search-alert-message")
                 .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
                       error.message + "<br>" + xhr.responseText);
             $("div.calculator div#search-db-alert").prop("hidden", false);
-        },
-        dataType: "json"
+        }
     });
 }
 
@@ -255,71 +257,73 @@ $(function() {
     $("div.calculator div.from-city > a.popularCities").bind("click", function() {
         var cityName = $(this).text();
         $.ajax({
-            type: "post",
-            url: "php/search.php",
+            type:       "post",
+            url:        "php/search.php",
+            dataType:   "json",
             data: {
-                "baseCityString": cityName
+                        "base_city_list": 1,
+                        "baseCityString": cityName
             },
-            response: "text",
-            success: function(response, status, jqXHR) {
+            response:   "json",
+            success:    function(response, status, jqXHR) {
                 if (true === response.success) {
                     if (1 === response.cities.length) {
                         var fullName = response.cities[0];
                         $("div.calculator input#baseCity").val(fullName);
                     }
                 } else {
-                    if (null !== response.error) {
+                    if (undefined !== response.error) {
                         $("div.calculator div#search-db-alert span#search-alert-message")
                             .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                                   "Сообщение об ошибке:<br>" + response.error);
                         $("div.calculator div#search-db-alert").prop("hidden", false);
-                    } else if (null !== response.message) {
+                    } else if (undefined !== response.message) {
                         alert(response.message);
                     }
                 }
             },
-            error: function(xhr, status, error) {
+            error:      function(xhr, status, error) {
                 $("div.calculator div#search-db-alert span#search-alert-message")
                 .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
                       error.message + "<br>" + xhr.responseText);
                 $("div.calculator div#search-db-alert").prop("hidden", false);
-            },
-            dataType: "json"
+            }
         });
     });
     $("div.calculator div.to-city > a.popularCities").bind("click", function() {
         var cityName = $(this).text();
         $.ajax({
-            type: "post",
-            url: "php/search.php",
+            type:       "post",
+            url:        "php/search.php",
+            dataType:   "json",
             data: {
-                "baseCityString": cityName
+                        "base_city_list": 1,
+                        "baseCityString": cityName
             },
-            response: "text",
-            success: function(response, status, jqXHR) {
+            response:   "json",
+            success:    function(response, status, jqXHR) {
                 if (true === response.success) {
                     if (1 === response.cities.length) {
                         var fullName = response.cities[0];
                         $("div.calculator input#city").val(fullName);
                     }
                 } else {
-                    if (null !== response.error) {
+                    if (undefined !== response.error) {
                         $("div.calculator div#search-db-alert span#search-alert-message")
                             .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                                   "Сообщение об ошибке:<br>" + response.error);
                         $("div.calculator div#search-db-alert").prop("hidden", false);
-                    } else if (null !== response.message) {
+                    } else if (undefined !== response.message) {
                         alert(response.message);
                     }
                 }
             },
-            error: function(xhr, status, error) {
+            error:      function(xhr, status, error) {
                 $("div.calculator div#search-db-alert span#search-alert-message")
                 .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
                       error.message + "<br>" + xhr.responseText);
                 $("div.calculator div#search-db-alert").prop("hidden", false);
-            },
-            dataType: "json"
+            }
         });
     });
 });
@@ -338,14 +342,16 @@ function calculate() {
     var fromCity = $("div.calculator input#baseCity").val();
     var toCity = $("div.calculator input#city").val();
     $.ajax({
-        type: "post",
-        url: "php/search.php",
+        type:       "post",
+        url:        "php/search.php",
+        dataType:   "json",
         data: {
-            "fromCity": fromCity,
-            "toCity": toCity
+                    "calculate_data": 1,
+                    "fromCity": fromCity,
+                    "toCity": toCity
         },
-        response: "text",
-        success: function(response, status, jqXHR) {
+    response:       "json",
+        success:    function(response, status, jqXHR) {
             if (true === response.success) {
                 var despatchList = $("div.calculator div.despatchList").children("div.despatch");
                 var fullWeight = 0;
@@ -414,23 +420,22 @@ function calculate() {
                     $("div.calculator div#calculate-result").toggle(true);
                 }
             } else {
-                if (null !== response.error) {
-                    $("div.calculator div#search-db-alert span#search-alert-message")
+                if (undefined !== response.error) {
+                    $("div.calculator div#calculate-db-alert span#calculate-alert-message")
                         .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                               "Сообщение об ошибке:<br>" + response.error);
-                    $("div.calculator div#search-db-alert").prop("hidden", false);
-                } else if (null !== response.message) {
+                    $("div.calculator div#calculate-db-alert").prop("hidden", false);
+                } else if (undefined !== response.message) {
                     alert(response.message);
                 }
             }
         },
-        error: function(xhr, status, error) {
+        error:      function(xhr, status, error) {
             $("div.calculator div#calculate-db-alert span#calculate-alert-message")
                 .html("Ошибка!<br>Обратитесь в службу поддержки.<br>Код ошибки: " + 
                       error.message + "<br>" + xhr.responseText);
             $("div.calculator div#calculate-db-alert").prop("hidden", false);
-        },
-        dataType: "json"
+        }
     });
 };
 

@@ -235,7 +235,7 @@
     if (true !== $DB->getConnectResult()) {
         $result["connect"] = false;
         echo json_encode($result);
-    } else if (isset($_POST["toCityString"]) && !empty($_POST["baseCityString"])) {
+    } else if (isset($_POST["city_list"]) && isset($_POST["toCityString"]) && !empty($_POST["baseCityString"])) {
         $result["connect"] = true;
         $tmpRes = $DB->getCityList($_POST["baseCityString"], $_POST["toCityString"]);
         if (true === $tmpRes["result"]) {
@@ -247,7 +247,7 @@
             $result["error"] = $tmpRes["errMsg"];
         }
         echo json_encode($result);
-    } else if (isset($_POST["baseCityString"])) {
+    } else if (isset($_POST["base_city_list"]) && isset($_POST["baseCityString"])) {
         $result["connect"] = true;
         $tmpRes = $DB->getBaseCityList($_POST["baseCityString"]);
         if (true === $tmpRes["result"]) {
@@ -259,7 +259,7 @@
             $result["error"] = $tmpRes["errMsg"];
         }
         echo json_encode($result);
-    } else if (!empty($_POST["fromCity"]) && !empty($_POST["toCity"])) {
+    } else if (isset($_POST["calculate_data"]) && !empty($_POST["fromCity"]) && !empty($_POST["toCity"])) {
         $result["connect"] = true;
         $tmpRes = $DB->getData($_POST["fromCity"], $_POST["toCity"]);
         if (true === $tmpRes["result"]) {
