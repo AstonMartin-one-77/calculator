@@ -420,13 +420,13 @@ function calculate() {
                     $("div.calculator div#calculate-result").toggle(true);
                 }
             } else {
-                if (undefined !== response.error) {
+                if ((undefined !== response.message) && (null !== response.message)) {
+                    alert(response.message);
+                } else if (undefined !== response.error) {
                     $("div.calculator div#calculate-db-alert span#calculate-alert-message")
                         .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                               "Сообщение об ошибке:<br>" + response.error);
                     $("div.calculator div#calculate-db-alert").prop("hidden", false);
-                } else if (undefined !== response.message) {
-                    alert(response.message);
                 }
             }
         },

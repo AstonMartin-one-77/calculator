@@ -60,32 +60,64 @@
         
         <div class="row shadow-sm justify-content-center p-3 m-1">
           <div class="col p-0 ml-3 mr-3">
-            <label for="btnBrowse"><h4>Выберите файл (Таблица направлений)</h4></label>
+            <label for="btnCitiesBrowse"><h4>Выберите файл (Таблица направлений)</h4></label>
             <label class="btn border-dark btn-warning btn-lg btn-block shadow-sm">
               Выбрать
-              <input type="file" name="btnBrowse" id="btnBrowse" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="$('#upload-file-info').html(this.files[0].name)" hidden>
+              <input type="file" name="btnCitiesBrowse" id="btnCitiesBrowse" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="$('#citiesUpload-file-info').html(this.files[0].name)" hidden>
             </label>
-            <span class='label label-info' id="upload-file-info"></span>
-            <input type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnLoader" onclick="loader()" value="Загрузить">
+            <span class='label label-info' id="citiesUpload-file-info"></span>
+            <input type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnCitiesLoader" onclick="citiesLoader()" value="Загрузить">
           </div>
           <div class="col p-0 ml-3 mr-3">
-            <label for="btnCleaner"><h4>Очистка таблицы направлений</h4></label>
-            <input type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnCleaner" value="Очистить">
+            <label for="btnCitiesCleaner"><h4>Очистка таблицы направлений</h4></label>
+            <input type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnCitiesCleaner" onclick="citiesCleaner()"  value="Очистить">
           </div>
         </div>
         
-        <div class="row shadow-sm p-3 m-1" id="load-db-success" hidden>
+        <div class="row shadow-sm p-3 m-1" id="cities-db-success" hidden>
           <div class="col p-0 m-0">
             <div class="alert alert-success" role="alert">
-              <span id="load-success-message"></span>
+              <span id="cities-success-message"></span>
             </div>
           </div>
         </div>
         
-        <div class="row shadow-sm p-3 m-1" id="load-db-alert" hidden>
+        <div class="row shadow-sm p-3 m-1" id="cities-db-alert" hidden>
           <div class="col p-0 m-0">
             <div class="alert alert-danger" role="alert">
-              <span id="load-alert-message"></span>
+              <span id="cities-alert-message"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row shadow-sm justify-content-center p-3 m-1">
+          <div class="col p-0 ml-3 mr-3">
+            <label for="btnZonesBrowse"><h4>Выберите файл (Таблица зон)</h4></label>
+            <label class="btn border-dark btn-warning btn-lg btn-block shadow-sm">
+              Выбрать
+              <input type="file" name="btnZonesBrowse" id="btnZonesBrowse" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="$('#zonesUpload-file-info').html(this.files[0].name)" hidden>
+            </label>
+            <span class='label label-info' id="zonesUpload-file-info"></span>
+            <input type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnZonesLoader" onclick="zonesLoader()" value="Загрузить">
+          </div>
+          <div class="col p-0 ml-3 mr-3">
+            <label for="btnZonesCleaner"><h4>Очистка таблицы зон</h4></label>
+            <input type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnZonesCleaner" onclick="zonesCleaner()"  value="Очистить">
+          </div>
+        </div>
+        
+        <div class="row shadow-sm p-3 m-1" id="zones-db-success" hidden>
+          <div class="col p-0 m-0">
+            <div class="alert alert-success" role="alert">
+              <span id="zones-success-message"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row shadow-sm p-3 m-1" id="zones-db-alert" hidden>
+          <div class="col p-0 m-0">
+            <div class="alert alert-danger" role="alert">
+              <span id="zones-alert-message"></span>
             </div>
           </div>
         </div>
