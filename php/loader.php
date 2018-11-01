@@ -209,7 +209,7 @@
             if (null === $limit) return null;
             else $limit = $limit->getValue(); // Получаем значение ячейки, если она не пуста
             if ((true === is_string($limit)) && (1 === preg_match($pattern, trim(strip_tags($limit)), $limitMatches))) {
-                if (($limit !== $limitMatches[0]) || ("0-0" === $limit)) {
+                if ($limit !== $limitMatches[0]) {
                     $limit = null;
                 }
             } else {

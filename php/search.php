@@ -139,7 +139,16 @@
                             $res["result"] = true;
                             // Получаем номер зоны, коэф. и даты доставок.
                             $zone = $dataMatches[1];
-                            $coeff = $dataMatches[2];
+                            // Если направление из опорного города в населенный пункт - коэффициент = 1:
+                            if (($fromCity === $row["Base_City"]) && ($toCity === $row["City"])) {
+                                $coeff = "1.0";
+                            } 
+                            // Если направление из населенного пункта в город - коэф. из данных:
+                            else if (($toCity === $row["Base_City"]) && ($fromCity === $row["City"])) {
+                                $coeff = $dataMatches[2];
+                            } else {
+                                $coeff = "0.0";
+                            }
                             for ($i = 3; $i < count($dataMatches); ++$i) {
                                 $datePattern = "/\{([a-z]+)\:\[([0-9]+(?:-[0-9]+))\]/ui";
                                 if (1 === preg_match($datePattern, $dataMatches[$i], $dateMatches)) {
