@@ -222,8 +222,10 @@
             $pattern = "/\d+/ui";
             if (null === $zone) return null;
             else $zone = $zone->getValue(); // Получаем значение ячейки, если она не пуста
-            if (true !== is_int($zone)) {
-                if ((true === is_string($zone)) && (1 === preg_match($pattern, trim(strip_tags($zone)), $zoneMatches))) {
+            if (true === is_float($zone)) {
+                $zone = intval($zone);
+            } else if (true === is_string($zone)) {
+                if (1 === preg_match($pattern, trim(strip_tags($zone)), $zoneMatches)) {
                     if ($zone === $zoneMatches[0]) {
                         $zone = intval($zone);
                     } else {
@@ -232,6 +234,8 @@
                 } else {
                     $zone = null;
                 }
+            } else if (true !== is_int($zone)) {
+                $zone = null;
             }
             return $zone;
         }
