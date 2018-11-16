@@ -502,7 +502,7 @@
             $cost_2 = null;
             for ($i = 0; $i < count($this->_modes); ++$i) {
                 if ($this->_modes[$i]["mode"] === $mode) {
-                    $cost_2 = $this->_modes[$i]["cost_1"];
+                    $cost_2 = $this->_modes[$i]["cost_2"];
                     break;
                 }
             }
@@ -513,7 +513,7 @@
             $cost_3 = null;
             for ($i = 0; $i < count($this->_modes); ++$i) {
                 if ($this->_modes[$i]["mode"] === $mode) {
-                    $cost_3 = $this->_modes[$i]["cost_1"];
+                    $cost_3 = $this->_modes[$i]["cost_3"];
                     break;
                 }
             }

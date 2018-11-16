@@ -358,6 +358,7 @@ function calculate() {
                 if (despatchList.length > 0) {
                     despatchList.each(function(index, element){
                         var weight = getFloat($(this).find("input#weight").val());
+                        var amount = getFloat($(this).find("input#amount").val());
                         var volumeWeight = 0;
                         switch($(this).find("img#despatch-icon").attr("alt")) {
                             case "envelope":
@@ -384,6 +385,8 @@ function calculate() {
                         weight = (weight <= 0.5) ? 0.5 : Math.ceil(weight.toFixed(2));
                         volumeWeight = (volumeWeight <= 0.5) ? 0.5 : Math.ceil(volumeWeight.toFixed(1));
                         fullWeight += (weight >= volumeWeight) ? weight : volumeWeight;
+                        // Вычисляем общий вес в соответствии с кол-вом позиций:
+                        fullWeight *= amount;
                     });
                     for (var i = 0, modes = response.DATA.modes, coeff = getFloat(response.DATA.coeff); i < modes.length; ++i) {
                         var fullCost = 0;
