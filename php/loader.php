@@ -175,7 +175,7 @@
         }
         
         private function getCity($city) {
-            $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)/ui";
+            $pattern = "/(([а-я]+)(-|\.|\. | |))*/ui";
             if (null === $city) return null;
             else $city = $city->getValue(); // Получаем значение ячейки, если она не пуста
             if ((true === is_string($city)) && 
