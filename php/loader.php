@@ -740,11 +740,11 @@
                         $coeff = $list[$index]["coeff"];
                         $standart = $list[$index]["mode"]["standart"];
                         $tmpData = "[$zone][$coeff]{standart:[$standart]}";
-                        if (null !== $list[$index]["mode"]["express"]) {
+                        if (isset($list[$index]["mode"]["express"])) {
                             $express = $list[$index]["mode"]["express"];
                             $tmpData = "$tmpData{express:[$express]}";
                         }
-                        if (null !== $list[$index]["mode"]["superexpress"]) {
+                        if (isset($list[$index]["mode"]["superexpress"])) {
                             $superexpress = $list[$index]["mode"]["superexpress"];
                             $tmpData = "$tmpData{superexpress:[$superexpress]}";
                         }
