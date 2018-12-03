@@ -1,30 +1,53 @@
 ﻿div.calculator {
-    background-color: #fad201;
+    background-color: #fff;
 }
 
-div.calculator > div.container > div.row, 
-div.calculator > div.container > form > div.row {
-    background-color: #ffd800;
+div.calculator > div.container .bg-light {
+    background-color: #fff;
+}
+
+div.calculator > div.container .bg-bright {
+    background-color: #ffcc00;
 }
 
 div.calculator div.despatch, 
 div.calculator div.despatch-parent,
 div.calculator div.dropdown-menu > a.dropdown-item:hover {
-    background-color: #ffb801;
+    background-color: #ffcc00;
 }
 
-div.calculator input, 
-div.calculator select,
-div.calculator textarea {
-    background-color: #ffff99;
+div.calculator .user-field {
+    background-color: #fff;
     min-width: 130px;
 }
 
-div.calculator input:focus,
+div.calculator .user-field:focus,
 div.calculator select:focus,
 div.calculator textarea:focus,
 div.calculator div.dropdown-menu {
     background-color: #ffff66;
+}
+
+div.calculator .button {
+    background-color: #ff0000;
+    padding: 4px 8px 4px 8px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+div.calculator .button-calculate,
+div.calculator .button-call {
+    width: 180px;
+    height: 50px;
+    font-size: 18px;
+}
+
+div.calculator .button-add {
+    background-color: #ffcc00;
+    padding: 4px 8px 4px 8px;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 div.calculator .text-headline {

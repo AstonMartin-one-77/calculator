@@ -26,10 +26,10 @@
           </div>
         </div>
         <form class="was-validated" id="formX" method="POST" action="javascript:void(null);" onsubmit="calculate()">
-          <div class="row justify-content-center shadow-sm p-3 m-1">
+          <div class="row bg-bright justify-content-center shadow-sm p-3 m-1">
             <div class="from-city col p-0 ml-3 mr-3">
               <label for="baseCity"><h4>Откуда</h4></label>
-              <input type="search" name="baseCity" id="baseCity" class="form-control is-valid" placeholder="Пункт отправки" autocomplete="off" required>
+              <input type="search" name="baseCity" id="baseCity" class="form-control is-valid user-field" placeholder="Пункт отправки" autocomplete="off" required>
               <span class="resultList">
                 <ul class="search_result shadow-sm pl-0" id="baseCityResult"></ul>
               </span>
@@ -37,13 +37,13 @@
               <a class="popularCities" href="#">Москва</a>
             </div>
             <div class="col-auto align-self-end p-0 m-0 pb-4 pt-4">
-              <button type="button" class="btn border-dark btn-warning btn-block shadow-sm p-1 pl-2 pr-2" id="btnReverse">
-                <img class="svg-icon" id="reserveIcon" src="img/reverse.svg" alt="">
+              <button type="button" class="button" id="btnReverse">
+                <img class="svg-icon" id="reserveIcon" src="img/reverse.svg" alt="Реверс">
               </button>
             </div>
             <div class="to-city col p-0 ml-3 mr-3">
               <label for="city"><h4>Куда</h4></label>
-              <input type="search" name="city" id="city" class="form-control is-valid" placeholder="Пункт доставки" autocomplete="off" required>
+              <input type="search" name="city" id="city" class="form-control is-valid user-field" placeholder="Пункт доставки" autocomplete="off" required>
               <span class="resultList">
                 <ul class="search_result shadow-sm pl-0" id="cityResult"></ul>
               </span>
@@ -79,68 +79,68 @@
                   <div class="col p-0">
                     <div class="prm p-1">
                       <label for="weight">Вес (кг)</label>
-                      <input type="text" name="weight" id="weight" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="0,5" required>
+                      <input type="text" name="weight" id="weight" class="form-control is-valid user-field" pattern="\d+((,|\.)\d+)?" value="0,5" required>
                     </div>
                   </div>
                   <div class="col env-prms p-0">
                     <div class="prm p-1">
                       <label for="env-length">Длина (см)</label>
-                      <input type="text" name="env-length" id="env-length" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled required>
+                      <input type="text" name="env-length" id="env-length" class="form-control is-valid user-field" pattern="\d+((,|\.)\d+)?" value="10" disabled required>
                     </div>
                   </div>
                   <div class="col env-prms p-0">
                     <div class="prm p-1">
                       <label for="env-width">Ширина (см)</label>
-                      <input type="text" name="env-width" id="env-width" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled required>
+                      <input type="text" name="env-width" id="env-width" class="form-control is-valid user-field" pattern="\d+((,|\.)\d+)?" value="10" disabled required>
                     </div>
                   </div>
                   <div class="col env-prms p-0">
                     <div class="prm p-1">
                       <label for="env-height">Высота (см)</label>
-                      <input type="text" name="env-height" id="env-height" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" disabled required>
+                      <input type="text" name="env-height" id="env-height" class="form-control is-valid user-field" pattern="\d+((,|\.)\d+)?" value="10" disabled required>
                     </div>
                   </div>
                   <div class="col box-prms p-0">
                     <div class="prm p-1">
                       <label for="box-length">Длина (см)</label>
-                      <input type="text" name="box-length" id="box-length" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" required>
+                      <input type="text" name="box-length" id="box-length" class="form-control is-valid user-field" pattern="\d+((,|\.)\d+)?" value="10" required>
                     </div>
                   </div>
                   <div class="col box-prms p-0">
                     <div class="prm p-1">
                       <label for="box-width">Ширина (см)</label>
-                      <input type="text" name="box-width" id="box-width" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" required>
+                      <input type="text" name="box-width" id="box-width" class="form-control is-valid user-field" pattern="\d+((,|\.)\d+)?" value="10" required>
                     </div>
                   </div>
                   <div class="col box-prms p-0">
                     <div class="prm p-1">
                       <label for="box-height">Высота (см)</label>
-                      <input type="text" name="box-height" id="box-height" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" required>
+                      <input type="text" name="box-height" id="box-height" class="form-control is-valid user-field" pattern="\d+((,|\.)\d+)?" value="10" required>
                     </div>
                   </div>
                   <div class="col roll-prms p-0">
                     <div class="prm p-1">
                       <label for="roll-length">Длина (см)</label>
-                      <input type="text" name="roll-length" id="roll-length" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" required>
+                      <input type="text" name="roll-length" id="roll-length" class="form-control is-valid user-field" pattern="\d+((,|\.)\d+)?" value="10" required>
                     </div>
                   </div>
                   <div class="col roll-prms p-0">
                     <div class="prm p-1">
                       <label for="roll-diameter">Диаметр (см)</label>
-                      <input type="text" name="roll-diameter" id="roll-diameter" class="form-control is-valid" pattern="\d+((,|\.)\d+)?" value="10" required>
+                      <input type="text" name="roll-diameter" id="roll-diameter" class="form-control is-valid user-field" pattern="\d+((,|\.)\d+)?" value="10" required>
                     </div>
                   </div>
                   <div class="col p-0">
                     <div class="prm p-1">
                       <label for="amount">Кол-во (шт)</label>
-                      <input type="text" name="amount" id="amount" class="form-control is-valid" pattern="\d+" value="1" required>
+                      <input type="text" name="amount" id="amount" class="form-control is-valid user-field" pattern="\d+" value="1" required>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="row justify-content-center p-0 m-0 mt-1">
                 <div class="col p-0">
-                  <button type="button" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnAddDespatch">
+                  <button type="button" class="button-add" id="btnAddDespatch">
                     <img class="svg-icon" src="img/plus.svg" alt="Добавить место"/>
                   </button>
                 </div>
@@ -150,7 +150,7 @@
           
           <div class="row shadow-sm justify-content-center p-3 m-1">
             <div class="col-auto">
-              <input type="submit" class="btn border-dark btn-warning btn-lg btn-block shadow-sm" id="btnCalculate" value="Рассчитать">
+              <input type="submit" class="button button-calculate" id="btnCalculate" value="Рассчитать">
             </div>
             <span class="close-despatch"></span>
           </div>
@@ -166,7 +166,7 @@
         <div class="row shadow-sm p-3 m-1" id="calculate-result">
           <div class="col p-0 m-0">
             <table class="table">
-              <thead>
+              <thead class="bg-bright">
                 <tr>
                   <th scope="col">Режим доставки</th>
                   <th scope="col">Срок доставки</th>
@@ -190,7 +190,7 @@
         
         <div class="row shadow-sm justify-content-center p-3 m-1">
           <div class="col-auto">
-            <button class="button">Вызвать курьера</button>
+            <button class="button button-call">Вызвать курьера</button>
           </div>
         </div>
         
