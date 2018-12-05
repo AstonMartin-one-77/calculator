@@ -20,9 +20,10 @@
         }
       
         function getBaseCityList($userString) {
-            $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)( \(([а-я]*) ([а-я]*)(\.\)|\)|\.|))?/ui";
+            $pattern = "/(([а-я0-9]+)(-|\.|\. | |))*(\((([а-я0-9]+)(-|\.|\. | |))+\))?/ui";
             $res["result"] = false;
             $res["errMsg"] = null;
+            $res["forUserMsg"] = null;
             $res["num_rows"] = 0;
             $res["cities"] = null;
 
@@ -56,7 +57,7 @@
         }
       
         function getCityList($baseCity, $userString) {
-            $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)( \(([а-я]*)( ([а-я]*)(\.\)|\)|\.|)?))?/ui";
+            $pattern = "/(([а-я0-9]+)(-|\.|\. | |))*(\((([а-я0-9]+)(-|\.|\. | |))+\))?/ui";
             $res["result"] = false;
             $res["errMsg"] = null;
             $res["num_rows"] = 0;
@@ -98,7 +99,7 @@
         }
       
         function getData($fromCity, $toCity) {
-            $pattern = "/(([а-я]*)(-[а-я]+)?(-[а-я]+)?)( \(([а-я]*) ([а-я]*)(\.\)|\)|\.|))?/ui";
+            $pattern = "/(([а-я0-9]+)(-|\.|\. | |))*(\((([а-я0-9]+)(-|\.|\. | |))+\))?/ui";
             $res["result"] = false;
             $res["errMsg"] = null;
             $res["forUserMsg"] = null;
@@ -265,6 +266,7 @@
             $result["num_rows"] = $tmpRes["num_rows"];
         } else {
             $result["success"] = false;
+            $result["message"] = $tmpRes["forUserMsg"];
             $result["error"] = $tmpRes["errMsg"];
         }
         echo json_encode($result);

@@ -20,12 +20,12 @@ function requestBaseCityList(userString) {
                 var cities = getBaseCityList($("div.calculator input#baseCity").val());
                 $("div.calculator ul#baseCityResult").html(cities).fadeIn();
             } else {
-                if (undefined !== response.error) {
+                if ((undefined !== response.error) && (null !== response.error)) {
                     $("div.calculator div#search-db-alert span#search-alert-message")
                         .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                               "Сообщение об ошибке:<br>" + response.error);
                     $("div.calculator div#search-db-alert").prop("hidden", false);
-                } else if (undefined !== response.message) {
+                } else if ((undefined !== response.message) && (null !== response.message)) {
                     alert(response.message);
                 }
             }
@@ -88,12 +88,12 @@ function requestCityList(baseCity, userString) {
                 var cities = getCityList($("div.calculator input#city").val());
                 $("div.calculator ul#cityResult").html(cities).fadeIn();
             } else {
-                if (undefined !== response.error) {
+                if ((undefined !== response.error) && (null !== response.error)) {
                     $("div.calculator div#search-db-alert span#search-alert-message")
                         .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                               "Сообщение об ошибке:<br>" + response.error);
                     $("div.calculator div#search-db-alert").prop("hidden", false);
-                } else if (undefined !== response.message) {
+                } else if ((undefined !== response.message) && (null !== response.message)) {
                     alert(response.message);
                 }
             }
@@ -272,12 +272,12 @@ $(function() {
                         $("div.calculator input#baseCity").val(fullName);
                     }
                 } else {
-                    if (undefined !== response.error) {
+                    if ((undefined !== response.error) && (null !== response.error)) {
                         $("div.calculator div#search-db-alert span#search-alert-message")
                             .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                                   "Сообщение об ошибке:<br>" + response.error);
                         $("div.calculator div#search-db-alert").prop("hidden", false);
-                    } else if (undefined !== response.message) {
+                    } else if ((undefined !== response.message) && (null !== response.message)) {
                         alert(response.message);
                     }
                 }
@@ -308,12 +308,12 @@ $(function() {
                         $("div.calculator input#city").val(fullName);
                     }
                 } else {
-                    if (undefined !== response.error) {
+                    if ((undefined !== response.error) && (null !== response.error)) {
                         $("div.calculator div#search-db-alert span#search-alert-message")
                             .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                                   "Сообщение об ошибке:<br>" + response.error);
                         $("div.calculator div#search-db-alert").prop("hidden", false);
-                    } else if (undefined !== response.message) {
+                    } else if ((undefined !== response.message) && (null !== response.message)) {
                         alert(response.message);
                     }
                 }
@@ -425,7 +425,7 @@ function calculate() {
             } else {
                 if ((undefined !== response.message) && (null !== response.message)) {
                     alert(response.message);
-                } else if (undefined !== response.error) {
+                } else if ((undefined !== response.error) && (null !== response.error)) {
                     $("div.calculator div#calculate-db-alert span#calculate-alert-message")
                         .html("Ошибка!<br>Обратитесь в службу поддержки.<br>" + 
                               "Сообщение об ошибке:<br>" + response.error);

@@ -175,7 +175,7 @@
         }
         
         private function getCity($city) {
-            $pattern = "/(([а-я]+)(-|\.|\. | |))*/ui";
+            $pattern = "/(([а-я0-9]+)(-|\.|\. | |))+/ui";
             if (null === $city) return null;
             else $city = $city->getValue(); // Получаем значение ячейки, если она не пуста
             if ((true === is_string($city)) && 
@@ -190,7 +190,7 @@
         }
         
         private function getArea($area) {
-            $pattern = "/([а-я]*) ([а-я]*)(\.\)|\)|\.|)/ui";
+            $pattern = "/(([а-я0-9]+)(-|\.|\. | |))+/ui";
             if (null === $area) return null;
             else $area = $area->getValue(); // Получаем значение ячейки, если она не пуста
             if ((true === is_string($area)) && 
