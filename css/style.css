@@ -16,6 +16,10 @@ div.calculator div.dropdown-menu > a.dropdown-item:hover {
     background-color: #ffcc00;
 }
 
+div.calculator .button-add:hover {
+  background-color: #ffd632;
+}
+
 div.calculator .user-field {
     background-color: #fff;
     min-width: 130px;
@@ -33,6 +37,10 @@ div.calculator .button {
     padding: 4px 8px 4px 8px;
     border: 1px solid black;
     border-radius: 5px;
+}
+
+div.calculator .button:hover {
+    background-color: #ff3030;
 }
 
 div.calculator .button-calculate,
