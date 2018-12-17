@@ -390,7 +390,6 @@ function calculate() {
                     fullWeight = (fullWeight <= 0.5) ? 0.5 : Math.ceil(fullWeight.toFixed(1));
                     for (var i = 0, modes = response.DATA.modes, coeff = getFloat(response.DATA.coeff); i < modes.length; ++i) {
                         var fullCost = 0;
-                        var withoutContract = 1.3;
                         var baseCost_0_5 = Number.parseInt(modes[i][0]);
                         var baseCost_1 = Number.parseInt(modes[i][1]);
                         var additionCost = Number.parseInt(modes[i][2]);
@@ -407,17 +406,7 @@ function calculate() {
                         newRow.find("th.date").text(modes[i]["date"]);
                         newRow.find("th.cost").text(Math.ceil(fullCost));
                         newRow.appendTo("div.calculator tbody.body-results");
-                        // Формируем вторую строку с ценой для людей без договора:
-                        var newExtRow = newRow.clone(true);
-                        newExtRow.toggleClass("row row-without-contract");
-                        newExtRow.find("th.cost").text(Math.ceil(fullCost * withoutContract));
-                        newExtRow.appendTo("div.calculator tbody.body-results");
-                        // В зависимости от положения кнопки выбираем строку с нужной ценой:
-                        if ($("div.calculator input#isContract").is(":checked")) {
-                            newRow.toggle(true);
-                        } else {
-                            newExtRow.toggle(true);
-                        }
+                        newRow.toggle(true);
                     }
                     // Отображаем таблицу результата.
                     $("div.calculator div#calculate-result").toggle(true);

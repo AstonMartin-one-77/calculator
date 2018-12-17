@@ -186,10 +186,11 @@
                     $res["result"] = false;
                 } else {
                     if ($data->num_rows > 0) {
-                        $ratePattern = "/\{([0-9]+)\|([0-9]+)\|([0-9]+)\}/ui";
+                        $ratePattern = "/\{(\d+(\.\d+)?)\|(\d+(\.\d+)?)\|(\d+(\.\d+)?)\}/ui";
                         for ($i = 0; $i < $data->num_rows; ++$i) {
                             // Читаем данные в ассоциативные массив.
                             $row = $data->fetch_array();
+                            $abraablr = $row["Data"];
                             // Проверяем данные:
                             if (1 === preg_match($ratePattern, $row["Data"], $rateMatches)) {
                                 $modeRates[$i]["name"] = $row["Delivery_Type"];
