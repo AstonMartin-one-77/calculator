@@ -190,13 +190,12 @@
                         for ($i = 0; $i < $data->num_rows; ++$i) {
                             // Читаем данные в ассоциативные массив.
                             $row = $data->fetch_array();
-                            $abraablr = $row["Data"];
                             // Проверяем данные:
                             if (1 === preg_match($ratePattern, $row["Data"], $rateMatches)) {
                                 $modeRates[$i]["name"] = $row["Delivery_Type"];
                                 $modeRates[$i][0] = $rateMatches[1];
-                                $modeRates[$i][1] = $rateMatches[2];
-                                $modeRates[$i][2] = $rateMatches[3];
+                                $modeRates[$i][1] = $rateMatches[3];
+                                $modeRates[$i][2] = $rateMatches[5];
                             } else {
                                 $res["result"] = false;
                                 $res["errMsg"] = "[zones] Check your data-format for: $rateMatches[0]";
