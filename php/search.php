@@ -2,10 +2,10 @@
 
     class calculatorDB {
 
-        const DB_HOST = "calculator.ru";
-        const DB_NAME = "calculator";
-        const DB_USER = "calculatorUser";
-        const DB_PASSWORD = "calculator.ru";
+        const DB_HOST = "localhost";
+        const DB_NAME = "toytekhnik_calculator";
+        const DB_USER = "toytekhnik_usr";
+        const DB_PASSWORD = "XXDhS4u3";
         private $_sqlDB = null;
         private $_result = null;
         

@@ -572,10 +572,10 @@
     class Validator {
         const USER_LOGIN = "delserver";
         const USER_PASSWORD = "~doeirkghjf#938";
-        const DB_HOST = "calculator.ru";
-        const DB_NAME = "calculator";
-        const DB_USER = "delserver123_497";
-        const DB_PASSWORD = "restlfk309";
+        const DB_HOST = "localhost";
+        const DB_NAME = "toytekhnik_calculator";
+        const DB_USER = "toytekhnik_usr";
+        const DB_PASSWORD = "XXDhS4u3";
         private $_result = false;
         
         public function __construct($userLogin, $userPassword, $dbHost, $dbName, $dbUser, $dbPassword) {
