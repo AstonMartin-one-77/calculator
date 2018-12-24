@@ -410,6 +410,7 @@ function calculate() {
                     }
                     // Отображаем таблицу результата.
                     $("div.calculator div#calculate-result").toggle(true);
+                    $("html").click();
                 }
             } else {
                 if ((undefined !== response.message) && (null !== response.message)) {

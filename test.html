@@ -19,6 +19,9 @@
                 iframe.contents().find("html").click(function() {
                     iframe.height(iframe.contents().find("html").height());
                 });
+                $(window).resize(function() {
+                    iframe.height(iframe.contents().find("html").height());
+                });
             });
         });
         function callIFrame(url, callback) {
