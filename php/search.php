@@ -3,9 +3,9 @@
     class calculatorDB {
 
         const DB_HOST = "localhost";
-        const DB_NAME = "toytekhnik_calculator";
-        const DB_USER = "toytekhnik_usr";
-        const DB_PASSWORD = "XXDhS4u3";
+        const DB_NAME = "delserv_calc";
+        const DB_USER = "delserv_calc";
+        const DB_PASSWORD = "iV7nN%D7";
         private $_sqlDB = null;
         private $_result = null;
         

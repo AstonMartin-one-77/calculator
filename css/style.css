@@ -111,6 +111,15 @@ div.calculator a.popularCities {
     margin-right: 3px;
 }
 
+div.calculator p.text-undersearch {
+    font-size: small;
+    font-style: italic;
+    text-decoration-color: darkgray;
+    text-decoration-style: dashed;
+    color: dimgray;
+    margin-right: 3px;
+}
+
 div.calculator div.from-city, 
 div.calculator div.to-city {
     min-width: 200px;

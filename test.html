@@ -7,7 +7,7 @@
 <body>
 
     <div class="calcPlace"></div>
-    <a id="delserv-lk" href="https://lk.delserv.ru/no-auth/quick-order">123</a>
+    <!-- <a id="delserv-lk" href="https://lk.delserv.ru/no-auth/quick-order">123</a> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
 
@@ -21,9 +21,9 @@
                 $(window).resize(function() {
                     iframe.height(iframe.contents().find("html").height());
                 });
-                $("#iframeCalc").contents().find("#button-call").click(function() {
+                /*$("#iframeCalc").contents().find("#button-call").click(function() {
                     window.location.href = 'https://lk.delserv.ru/no-auth/quick-order';
-                });
+                });*/
             });
         });
         function callIFrame(url, callback) {

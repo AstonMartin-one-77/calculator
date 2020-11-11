@@ -22,7 +22,8 @@
       <div class="container-fluid">
         <div class="row shadow-sm m-1 rounded-top">
           <div class="col">
-            <h3 class="text-headline">Расчет доставки по России</h3>
+            <h2 class="text-headline">РАСЧЁТ СТОИМОСТИ ДОСТАВКИ</h2>
+            <h4 class="text-headline">Разумные сроки доставки, умеренные тарифы, множество дополнительных услуг</h4>
           </div>
         </div>
         <form class="was-validated" id="formX" method="POST" action="javascript:void(null);" onsubmit="calculate()">
@@ -49,6 +50,11 @@
               </span>
               <a class="popularCities" href="#">Санкт-Петербург</a>
               <a class="popularCities" href="#">Москва</a>
+            </div>
+          </div>
+          <div class="row shadow-sm p-3 m-1" id="user-notification">
+            <div class="col">
+              <p class="text-undersearch">Обратите внимание: если населенный пункт в городах Москва или Санкт-Петербург находится за пределами МКАД (КАД), то для корректного расчета и вызова курьера следует вводить название населенного пункта. Вводите "Москва" или "Санкт-Петербург" только если вам нужна доставка или забор груза в пределах МКАД (КАД)</p>
             </div>
           </div>
           <div class="row shadow-sm p-3 m-1" id="search-db-alert" hidden>
@@ -150,7 +156,7 @@
           
           <div class="row shadow-sm justify-content-center p-3 m-1">
             <div class="col-auto">
-              <input type="submit" class="button button-calculate" id="btnCalculate" value="Рассчитать">
+              <input type="submit" class="button button-calculate" id="btnCalculate" onclick="ym(19005433, 'reachGoal', 'kalk-raschet'); return true;" value="Рассчитать">
             </div>
             <span class="close-despatch"></span>
           </div>
@@ -184,17 +190,21 @@
           </div>
         </div>
         
+        <!--
         <div class="row shadow-sm justify-content-center p-3 m-1">
           <div class="col-auto">
-              <button class="button button-call" id="button-call">Вызвать курьера</button>
+              <button class="button button-call" id="button-call" onclick="ym(19005433, 'reachGoal', 'kalk-kurier'); return true;">Вызвать курьера</button>
           </div>
         </div>
+        -->
         
+        <!--
         <div class="row shadow-sm justify-content-center p-3 m-1 rounded-bottom">
           <div class="col-auto">
             <div class="blockquote-footer text-headline">&copy; Copyright 2018 Delserv Company</div>
           </div>
         </div>
+        -->
       </div>
     </div>
 
@@ -328,5 +338,6 @@
 
         });
     </script>
+<!-- Yandex.Metrika counter --> <script type="text/javascript" > (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}; m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}) (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym"); ym(19005433, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, trackHash:true }); </script> <noscript><div><img src="https://mc.yandex.ru/watch/19005433" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->	
   </body>
 </html>
